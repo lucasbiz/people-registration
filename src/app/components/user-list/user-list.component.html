@@ -1,0 +1,15 @@
+<div class="table bg-white">
+  <div class="table-header text-white d-flex">
+    <div class="col">Nome</div>
+    <div class="col">E-mail</div>
+    <div class="col">Telefone</div>
+    <div class="col">Data de nascimento</div>
+    <div class="col">Ações</div>
+  </div>
+  <app-user-row
+  *ngFor="let user of users"
+  [user]="user"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+  ></app-user-row>
+</div>

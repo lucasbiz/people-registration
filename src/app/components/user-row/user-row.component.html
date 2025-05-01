@@ -1,0 +1,15 @@
+<div class="user-row d-flex bg-white p-3">
+  <div class="col">{{ user.name }}</div>
+  <div class="col">{{ user.email }}</div>
+  <div class="col">{{ user.phone }}</div>
+  <div class="col">{{ user.birthDate}}</div>
+  <div class="col">
+    <button class="btn btn-sm" (click)="onEdit()">
+      <i class="bi bi-pencil-fill"></i>
+    </button>
+      <button class="btn btn-sm" (click)="onDelete()">
+        <i class="bi bi-trash-fill"></i>
+      </button>
+  </div>
+</div>
+<hr class="mx-auto">

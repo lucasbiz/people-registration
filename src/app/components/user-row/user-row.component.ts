@@ -1,0 +1,26 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { User } from '../../models/user.model';
+
+@Component({
+  selector: 'app-user-row',
+  imports: [],
+  templateUrl: './user-row.component.html',
+  styleUrl: './user-row.component.css'
+})
+export class UserRowComponent {
+
+  @Input() user!: User;
+  @Output() edit = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<number>();
+
+  onEdit() {
+    console.log("Clicou no edit")
+    this.edit.emit(this.user.id);
+  }
+
+  onDelete() {
+    console.log("Clicou no delete")
+    this.delete.emit(this.user.id);
+  }
+
+}

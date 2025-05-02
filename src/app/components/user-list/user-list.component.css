@@ -1,6 +1,4 @@
-.table {
-  border: 1px solid red;
-}
+
 
 .table-header {
   background-color: #142025;
@@ -12,5 +10,5 @@
 }
 
 .actions {
-  width: 50px;
+  width: 40px;
 }

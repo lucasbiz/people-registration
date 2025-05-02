@@ -2,8 +2,8 @@
   <div class="col">{{ user.name }}</div>
   <div class="col">{{ user.email }}</div>
   <div class="col">{{ user.phone }}</div>
-  <div class="col">{{ user.birthDate}}</div>
-  <div class="col">
+  <div class="col">{{ user.birthDate | date:'dd/MM/yyyy'}}</div>
+  <div class="col actions">
     <button class="btn btn-sm" (click)="onEdit()">
       <i class="bi bi-pencil-fill"></i>
     </button>

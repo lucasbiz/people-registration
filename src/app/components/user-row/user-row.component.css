@@ -1,9 +1,18 @@
 .user-row {
-  height: 105px;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #131E23;
+  height: 105px;
 }
 
 hr {
   width: 95%;
+  margin: auto;
+}
+
+.actions {
+  text-align: right;
+  width: 10px;
 }

@@ -1,9 +1,9 @@
 .container {
   font-family:"JetBrains Mono", monospace;
-  min-width: 904px;
-  max-width: 904px;
+  width: 1000px;
 }
 
 .custom-size {
-  font-size: 50px;
+  font-size: 40px;
+  font-weight: 800;
 }

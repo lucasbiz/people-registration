@@ -15,7 +15,7 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
 
   ngOnInit(): void {
-    this.users = MOCK_USERS
+    this.users = MOCK_USERS.results
   };
 
   onEdit (userId: number): void {

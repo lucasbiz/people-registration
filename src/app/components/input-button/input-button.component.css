@@ -1,2 +1,10 @@
 
 
+.custom-size {
+  height: 50px;
+}
+
+.custom-vector {
+  height: 12px;
+  padding-left:20px;
+}

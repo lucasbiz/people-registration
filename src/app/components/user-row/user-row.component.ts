@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../../models/user.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-row',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './user-row.component.html',
   styleUrl: './user-row.component.css'
 })

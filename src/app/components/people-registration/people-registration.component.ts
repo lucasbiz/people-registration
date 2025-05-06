@@ -11,4 +11,8 @@ import { UserListComponent } from '../user-list/user-list.component';
 export class PeopleRegistrationComponent {
 
 
+  newRegister() {
+    
+  }
+
 }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { UserListComponent } from '../user-list/user-list.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { RegisterModalComponent } from '../register-modal/register-modal.component';
 
 @Component({
   selector: 'app-people-registration',
@@ -10,9 +12,23 @@ import { UserListComponent } from '../user-list/user-list.component';
 })
 export class PeopleRegistrationComponent {
 
+  bsModalRef?: BsModalRef;
+
+  constructor(private modalService: BsModalService) {
+
+  }
 
   newRegister() {
-    
+
+    const initialState = {
+      modalTitle: 'Criar novo cadastro',
+      saveButtonText: 'Novo cadastro'
+    }
+
+    this.bsModalRef = this.modalService.show(RegisterModalComponent, {
+      initialState,
+      class: 'modal-dialog-centered'
+    });
   }
 
 }

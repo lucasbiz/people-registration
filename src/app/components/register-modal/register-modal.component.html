@@ -1,1 +1,41 @@
-<p>register-modal works!</p>
+<div class="modal-header">
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+</div>
+<div class="modal-body">
+
+  <form [formGroup]="form" (ngSubmit)="saveNewRegister()">
+    <div class="mb-3">
+      <label class="form-label">Nome</label>
+      <input type="text" formControlName="name" class="form-control" [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched">
+      <div class="invalid-feedback">Nome é obrigatório e deve ter pelo menos 3 letras.</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">E-mail</label>
+      <input type="email" formControlName="email" class="form-control" [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched">
+      <div class="invalid-feedback">E-mail inválido.</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Telefone</label>
+      <input type="text" formControlName="phone" class="form-control" mask="(00) 00000-0000" [class.is-invalid]="form.get('phone')?.invalid && form.get('phone')?.touched">
+      <div class="invalid-feedback">Telefone inválido.</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Data de nascimento</label>
+      <input type="text" formControlName="birthDate" class="form-control" mask="00/00/0000" [class.is-invalid]="form.get('birthDate')?.invalid && form.get('birthDate')?.touched ">
+      <div class="invalid-feedback">Data de nascimento inválida.</div>
+    </div>
+
+  </form>
+
+
+</div>
+<div class="modal-footer row">
+  <app-input-button [isHomePage]="false" [value]="'Novo Cadastro'" (clicked)="saveNewRegister()"></app-input-button>
+  <button class="w-25 mx-auto btn" (click)="closeModal()">Cancelar</button>
+</div>
+
+

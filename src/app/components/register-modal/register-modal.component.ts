@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { InputButtonComponent } from "../input-button/input-button.component";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../user.service';
+import { SuccessModalComponent } from '../success-modal/success-modal.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -17,10 +18,12 @@ export class RegisterModalComponent {
 
   modalTitle: string = '';
   saveButtonText: string = '';
+  showSuccessMessage = false;
+
 
   form: FormGroup;
 
-constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService) {
+constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private fb: FormBuilder, private usersService: UsersService) {
   this.form = this.fb.group({
     name: this.fb.control('', {
       validators: [Validators.required, Validators.minLength(3)],
@@ -45,15 +48,33 @@ constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private user
     if(this.form.valid) {
       const formData = this.form.value;
       this.usersService.createUser(formData).subscribe({
-        next: (response) => console.log(response),
-        error: (err) => console.error('Erro: ', err),
+        next: () => {
+          this.closeModal();
+          this.showRegisterSucess();
+        },
+        error: (err) => {
+          console.error(err);
+        },
         complete: () => {
           console.log('Observable concluído');
           this.usersService.getUsers();
       }});
+
     } else {
     this.form.markAllAsTouched();
     }
+  }
+
+  showRegisterSucess() {
+
+    const initialState = {
+      modalTitle: 'Cadastro criado com sucesso!'
+    }
+
+    this.bsModalRef = this.modalService.show(SuccessModalComponent, {
+      initialState,
+      class: 'modal-dialog-centered'
+    });
   }
 
   closeModal() {

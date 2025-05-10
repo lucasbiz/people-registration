@@ -9,7 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class UsersService {
 
-  private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/';
+  // private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/';
+  private baseApiUrl = 'http://localhost:3000/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -23,17 +24,15 @@ export class UsersService {
 
   createUser(userData: any): Observable<any> {
 
-    console.log(userData);
     const formattedDate = userData.birthDate.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
-
-    console.log(formattedDate)
-
     const [day, month, year] = formattedDate.split('/');
     const isoDate = new Date(`${year}-${month}-${day}`).toISOString();
-    console.log(isoDate)
+
+    const formattedPhone = userData.phone.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
 
     const payload = {
       ...userData,
+      phone: formattedPhone,
       birthDate: isoDate,
     };
 

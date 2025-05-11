@@ -2,8 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserRowComponent } from "../user-row/user-row.component";
 import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
-import { UsersService } from '../../user.service';
-
+import { UsersService } from '../../services/user.service';
+import { ConfirmDeletionModalComponent } from '../confirm-deletion-modal/confirm-deletion-modal.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalHelperService } from '../../services/modal-helper.service';
 
 @Component({
   selector: 'app-user-list',
@@ -30,7 +32,9 @@ export class UserListComponent implements OnInit {
 
   @Output() loadUsersCall = new EventEmitter<number>();
 
-  constructor(private usersService: UsersService) {}
+  bsModalRef?: BsModalRef;
+
+  constructor(private usersService: UsersService, private modalService: BsModalService, private modalHelperService: ModalHelperService) {}
 
   ngOnInit(): void {
     this.loadUsers(1);
@@ -40,17 +44,30 @@ export class UserListComponent implements OnInit {
 
   onDelete(userId: number): void {
 
-    this.usersService.deleteUser(userId).subscribe({
-      complete: () => {
-        this.usersData.users = this.usersData.users.filter(user => user.id !== userId);
-        console.log("Usuário deletado com sucesso");
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
+    this.bsModalRef = this.modalService.show(ConfirmDeletionModalComponent, {
+      class: 'modal-dialog-centered'
+    });
 
+    this.bsModalRef.content.userDeleted.subscribe(() => {
+      this.usersService.deleteUser(userId).subscribe({
+        complete: () => {
+          this.usersData.users = this.usersData.users.filter(user => user.id !== userId);
+          this.showDeletionSuccess();
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
+    })
   };
+
+  showDeletionSuccess() {
+
+    const initialState = {
+      modalTitle: 'Cadastro excluído com sucesso!'
+    }
+    this.modalHelperService.showActionSucess(initialState)
+    }
 
   loadUsers(pageNumber : number){
     this.loadUsersCall.emit(pageNumber);

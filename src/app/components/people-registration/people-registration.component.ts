@@ -3,7 +3,7 @@ import { InputButtonComponent } from '../input-button/input-button.component';
 import { UserListComponent } from '../user-list/user-list.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegisterModalComponent } from '../register-modal/register-modal.component';
-import { UsersService } from '../../user.service';
+import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 
 @Component({

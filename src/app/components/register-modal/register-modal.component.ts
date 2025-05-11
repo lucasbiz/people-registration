@@ -2,9 +2,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { InputButtonComponent } from "../input-button/input-button.component";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { UsersService } from '../../user.service';
-import { SuccessModalComponent } from '../success-modal/success-modal.component';
+import { UsersService } from '../../services/user.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalHelperService } from '../../services/modal-helper.service';
 
 
 @Component({
@@ -19,13 +19,12 @@ export class RegisterModalComponent {
   @Output() userCreated = new EventEmitter<void>();
 
   modalTitle: string = '';
-  saveButtonText: string = '';
-  showSuccessMessage = false;
 
 
   form: FormGroup;
 
-constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private fb: FormBuilder, private usersService: UsersService) {
+constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
+
   this.form = this.fb.group({
     name: this.fb.control('', {
       validators: [Validators.required, Validators.minLength(3)],
@@ -71,10 +70,8 @@ constructor(public bsModalRef: BsModalRef, private modalService: BsModalService,
       modalTitle: 'Cadastro criado com sucesso!'
     }
 
-    this.bsModalRef = this.modalService.show(SuccessModalComponent, {
-      initialState,
-      class: 'modal-dialog-centered'
-    });
+    this.modalHelperService.showActionSucess(initialState)
+
   }
 
   closeModal() {

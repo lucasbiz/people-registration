@@ -17,7 +17,7 @@ export class UserListComponent implements OnInit {
   currentPage = 1;
   limit = 10;
   totalCount = 0;
-  totalPages = 0
+  totalPages = 0;
 
   constructor(private userService: UsersService) {}
 

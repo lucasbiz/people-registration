@@ -15,12 +15,10 @@ export class UserRowComponent {
   @Output() delete = new EventEmitter<number>();
 
   onEdit() {
-    console.log("Clicou no edit")
     this.edit.emit(this.user.id);
   }
 
   onDelete() {
-    console.log("Clicou no delete")
     this.delete.emit(this.user.id);
   }
 

@@ -14,12 +14,19 @@ export class UsersService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
-
-    return this.http.get<{ results: User[] }>(this.baseApiUrl + 'persons')
-      .pipe(
-        map(response => response.results)
-      );
+  getUsers(page: number = 1, limit:number = 10): Observable<{
+      results: User[],
+      page: number,
+      limit: number,
+      count: number
+    }> {
+      const params = {page: page.toString(), limit: limit.toString()};
+      return this.http.get<{
+        results: User[],
+        page: number,
+        limit: number,
+        count: number
+      }>(`${this.baseApiUrl + 'persons'}`, {params});
   }
 
   createUser(userData: any): Observable<any> {

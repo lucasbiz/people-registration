@@ -3,6 +3,6 @@
     <h1 class="text-white custom-size">Cadastro de pessoas</h1>
     <app-input-button [isHomePage]="true" [value]="'Novo Cadastro'" (click)="newRegister()"></app-input-button>
   </div>
-  <app-user-list></app-user-list>
+  <app-user-list [usersData]="usersData" (loadUsersCall)="loadUsers()"></app-user-list>
 </div>
 

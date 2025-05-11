@@ -46,7 +46,11 @@ export class UsersService {
     return this.http.post(this.baseApiUrl + 'persons', payload);
   }
 
+  deleteUser(userID: number){
 
+    return this.http.delete(this.baseApiUrl + 'persons/' + userID);
+
+  }
 
 
 }

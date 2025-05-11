@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { InputButtonComponent } from "../input-button/input-button.component";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -15,6 +15,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   styleUrl: './register-modal.component.css'
 })
 export class RegisterModalComponent {
+
+  @Output() userCreated = new EventEmitter<void>();
 
   modalTitle: string = '';
   saveButtonText: string = '';
@@ -51,14 +53,12 @@ constructor(public bsModalRef: BsModalRef, private modalService: BsModalService,
         next: () => {
           this.closeModal();
           this.showRegisterSucess();
+          this.userCreated.emit();
         },
         error: (err) => {
           console.error(err);
-        },
-        complete: () => {
-          console.log('Observable concluído');
-          this.usersService.getUsers();
-      }});
+        }
+      });
 
     } else {
     this.form.markAllAsTouched();

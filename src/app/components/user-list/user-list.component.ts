@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserRowComponent } from "../user-row/user-row.component";
-import { User } from '../../models/user.model';
+import { UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
 import { ConfirmDeletionModalComponent } from '../confirm-deletion-modal/confirm-deletion-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
+import { RegisterModalComponent } from '../register-modal/register-modal.component';
 
 @Component({
   selector: 'app-user-list',
@@ -16,13 +17,7 @@ import { ModalHelperService } from '../../services/modal-helper.service';
 export class UserListComponent implements OnInit {
 
 
-  @Input() usersData: {
-    users: User[],
-    currentPage: number,
-    limit: number,
-    totalCount: number,
-    totalPages: number
-  } = {
+  @Input() usersData: UsersData = {
     users: [],
     currentPage: 1,
     limit: 10,
@@ -30,19 +25,34 @@ export class UserListComponent implements OnInit {
     totalPages: 0,
   };
 
-  @Output() loadUsersCall = new EventEmitter<number>();
+  @Output() renderUsersCall = new EventEmitter<number>();
 
   bsModalRef?: BsModalRef;
 
   constructor(private usersService: UsersService, private modalService: BsModalService, private modalHelperService: ModalHelperService) {}
 
   ngOnInit(): void {
-    this.loadUsers(1);
+    this.renderUsers(1);
   };
 
-  onEdit(userId: number): void {};
+  onEdit(userId: number) {
 
-  onDelete(userId: number): void {
+    const initialState = {
+        modalTitle: 'Editar cadastro',
+        saveButtonText: 'Salvar alterações'
+      }
+
+      this.bsModalRef = this.modalService.show(RegisterModalComponent, {
+        initialState,
+        class: 'modal-dialog-centered'
+      });
+
+      this.bsModalRef.content.userCreated.subscribe(() => {
+        // this.renderUsers(this.usersData.currentPage);
+      });
+    };
+
+  onDelete(userId: number) {
 
     this.bsModalRef = this.modalService.show(ConfirmDeletionModalComponent, {
       class: 'modal-dialog-centered'
@@ -69,8 +79,15 @@ export class UserListComponent implements OnInit {
     this.modalHelperService.showActionSucess(initialState)
     }
 
-  loadUsers(pageNumber : number){
-    this.loadUsersCall.emit(pageNumber);
+  renderUsers(pageNumber : number = 1){
+    this.usersService.loadUsers(pageNumber).subscribe({
+      next: (data: UsersData) => {
+        this.usersData = data;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar usuários:', err);
+      }
+    });
   }
 
 }

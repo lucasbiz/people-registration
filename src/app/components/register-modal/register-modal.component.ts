@@ -16,14 +16,12 @@ import { ModalHelperService } from '../../services/modal-helper.service';
 })
 export class RegisterModalComponent {
 
-  @Output() userCreated = new EventEmitter<void>();
-
   modalTitle: string = '';
 
 
   form: FormGroup;
 
-constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
+constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
 
   this.form = this.fb.group({
     name: this.fb.control('', {
@@ -52,13 +50,12 @@ constructor(public bsModalRef: BsModalRef, private modalService: BsModalService,
         next: () => {
           this.closeModal();
           this.showRegisterSucess();
-          this.userCreated.emit();
+          this.renderUsers();
         },
         error: (err) => {
           console.error(err);
         }
       });
-
     } else {
     this.form.markAllAsTouched();
     }
@@ -69,13 +66,15 @@ constructor(public bsModalRef: BsModalRef, private modalService: BsModalService,
     const initialState = {
       modalTitle: 'Cadastro criado com sucesso!'
     }
-
     this.modalHelperService.showActionSucess(initialState)
-
   }
 
   closeModal() {
     this.bsModalRef.hide();
   };
+
+  renderUsers(){
+    this.usersService.loadUsers();
+  }
 
 }

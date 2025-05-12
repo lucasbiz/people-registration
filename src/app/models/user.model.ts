@@ -7,3 +7,11 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UsersData {
+  users: User[],
+  currentPage: number,
+  limit: number,
+  totalCount: number,
+  totalPages: number
+}

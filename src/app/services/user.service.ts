@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
+import { User, UsersData } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,10 +46,26 @@ export class UsersService {
   }
 
   deleteUser(userID: number){
-
     return this.http.delete(this.baseApiUrl + 'persons/' + userID);
-
   }
+
+
+// user.service.ts
+loadUsers(page: number = 1, limit: number = 10): Observable<UsersData> {
+  console.log("loadusers executado")
+  return this.getUsers(page, limit).pipe(
+    map(response => {
+      return {
+        users: response.results,
+        currentPage: response.page,
+        limit: response.limit,
+        totalCount: response.count,
+        totalPages: Math.ceil(response.count / response.limit)
+      } as UsersData;
+    })
+  );
+}
+
 
 
 }

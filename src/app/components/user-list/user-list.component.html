@@ -13,8 +13,8 @@
   (delete)="onDelete($event)"
   ></app-user-row>
   <div class="p-3 mx-auto">
-    <button class="btn m-3 btn-outline-dark" (click)="loadUsers(usersData.currentPage - 1)" [disabled]="usersData.currentPage === 1">Previous</button>
+    <button class="btn m-3 btn-outline-dark" (click)="renderUsers(usersData.currentPage - 1)" [disabled]="usersData.currentPage === 1">Previous</button>
     <span>Showing page {{ usersData.currentPage }} of {{usersData.totalPages}}</span>
-    <button class="btn m-3 btn-outline-dark" (click)="loadUsers(usersData.currentPage + 1)" [disabled]="usersData.currentPage * usersData.limit >= usersData.totalCount">Next</button>
+    <button class="btn m-3 btn-outline-dark" (click)="renderUsers(usersData.currentPage + 1)" [disabled]="usersData.currentPage * usersData.limit >= usersData.totalCount">Next</button>
   </div>
 </div>

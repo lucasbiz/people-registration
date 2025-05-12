@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { InputButtonComponent } from "../input-button/input-button.component";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
+import { User } from '../../models/user.model';
 
 
 @Component({
@@ -21,45 +22,70 @@ export class RegisterModalComponent {
 
   form: FormGroup;
 
-constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
+  @Output() renderUsersCall = new EventEmitter<void>();
+  @Input() userData?: User;
 
-  this.form = this.fb.group({
-    name: this.fb.control('', {
-      validators: [Validators.required, Validators.minLength(3)],
-      updateOn: 'blur'
-    }),
-    email: this.fb.control('', {
-      validators: [Validators.required, Validators.email],
-      updateOn: 'blur'
-    }),
-    phone: this.fb.control('', {
-      validators: [Validators.required],
-      updateOn: 'blur'
-    }),
-    birthDate: this.fb.control('', {
-      validators: [Validators.required, Validators.minLength(8)],
-      updateOn: 'blur'
-    }),
-  });
-}
+  constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
 
-  saveNewRegister() {
-    if(this.form.valid) {
-      const formData = this.form.value;
-      this.usersService.createUser(formData).subscribe({
-        next: () => {
-          this.closeModal();
-          this.showRegisterSucess();
-          this.renderUsers();
-        },
-        error: (err) => {
-          console.error(err);
-        }
+    this.form = this.fb.group({
+      name: this.fb.control('', {
+        validators: [Validators.required, Validators.minLength(3)],
+        updateOn: 'blur'
+      }),
+      email: this.fb.control('', {
+        validators: [Validators.required, Validators.email],
+        updateOn: 'blur'
+      }),
+      phone: this.fb.control('', {
+        validators: [Validators.required],
+        updateOn: 'blur'
+      }),
+      birthDate: this.fb.control('', {
+        validators: [Validators.required, Validators.minLength(8)],
+        updateOn: 'blur'
+      }),
+    });
+  }
+
+  ngOnInit() {
+    if (this.userData) {
+      this.form.patchValue({
+        name: this.userData.name,
+        email: this.userData.email,
+        phone: this.userData.phone,
+        birthDate: this.userData.birthDate
       });
-    } else {
-    this.form.markAllAsTouched();
     }
   }
+
+
+  saveNewRegister() {
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const formData = this.form.value;
+
+    const obs$ = this.userData
+    ? this.usersService.updateUser(this.userData.id, formData)   // modo edição
+    : this.usersService.createUser(formData);
+
+    obs$.subscribe({
+      next: () => {
+        this.renderUsersCall.emit();
+        this.closeModal();
+        this.showRegisterSucess();
+      },
+      error: err => console.error(err)
+    });
+
+  }
+
+
+
+
 
   showRegisterSucess() {
 
@@ -72,9 +98,4 @@ constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private user
   closeModal() {
     this.bsModalRef.hide();
   };
-
-  renderUsers(){
-    this.usersService.loadUsers();
-  }
-
 }

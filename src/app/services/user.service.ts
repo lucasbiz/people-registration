@@ -49,6 +49,23 @@ export class UsersService {
     return this.http.delete(this.baseApiUrl + 'persons/' + userID);
   }
 
+  updateUser(id: number, userData: any): Observable<any>{
+
+    const formattedDate = userData.birthDate.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
+    const [day, month, year] = formattedDate.split('/');
+    const isoDate = new Date(`${year}-${month}-${day}`).toISOString();
+
+    const formattedPhone = userData.phone.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+
+    const payload = {
+      ...userData,
+      phone: formattedPhone,
+      birthDate: isoDate,
+    };
+
+    return this.http.put(`${this.baseApiUrl}persons/${id}`, payload);
+  }
+
 
 // user.service.ts
 loadUsers(page: number = 1, limit: number = 10): Observable<UsersData> {
@@ -65,7 +82,6 @@ loadUsers(page: number = 1, limit: number = 10): Observable<UsersData> {
     })
   );
 }
-
 
 
 }

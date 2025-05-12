@@ -4,7 +4,7 @@ import { UserListComponent } from '../user-list/user-list.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegisterModalComponent } from '../register-modal/register-modal.component';
 import { UsersService } from '../../services/user.service';
-import { User, UsersData } from '../../models/user.model';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-people-registration',
@@ -13,6 +13,8 @@ import { User, UsersData } from '../../models/user.model';
   styleUrl: './people-registration.component.css'
 })
 export class PeopleRegistrationComponent {
+
+  @ViewChild(UserListComponent) userListComponent!: UserListComponent;
 
   bsModalRef?: BsModalRef;
 
@@ -28,6 +30,12 @@ export class PeopleRegistrationComponent {
       initialState,
       class: 'modal-dialog-centered'
     });
+
+    this.bsModalRef.content.renderUsersCall.subscribe(() => {
+      console.log("bateu aqui")
+      this.userListComponent.renderUsers();
+    });
+
   }
 }
 

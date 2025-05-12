@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserRowComponent } from "../user-row/user-row.component";
-import { UsersData } from '../../models/user.model';
+import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
 import { ConfirmDeletionModalComponent } from '../confirm-deletion-modal/confirm-deletion-modal.component';
@@ -25,31 +25,31 @@ export class UserListComponent implements OnInit {
     totalPages: 0,
   };
 
-  @Output() renderUsersCall = new EventEmitter<number>();
 
   bsModalRef?: BsModalRef;
 
   constructor(private usersService: UsersService, private modalService: BsModalService, private modalHelperService: ModalHelperService) {}
 
   ngOnInit(): void {
-    this.renderUsers(1);
+    this.renderUsers();
   };
 
-  onEdit(userId: number) {
+  onEdit(user: User) {
 
     const initialState = {
         modalTitle: 'Editar cadastro',
-        saveButtonText: 'Salvar alterações'
+        saveButtonText: 'Salvar alterações',
+        userData: user
       }
 
-      this.bsModalRef = this.modalService.show(RegisterModalComponent, {
-        initialState,
-        class: 'modal-dialog-centered'
-      });
+    this.bsModalRef = this.modalService.show(RegisterModalComponent, {
+      initialState,
+      class: 'modal-dialog-centered'
+    });
 
-      this.bsModalRef.content.userCreated.subscribe(() => {
-        // this.renderUsers(this.usersData.currentPage);
-      });
+    this.bsModalRef.content.renderUsersCall.subscribe(() => {
+      this.renderUsers(this.usersData.currentPage);
+    });
     };
 
   onDelete(userId: number) {
@@ -63,6 +63,7 @@ export class UserListComponent implements OnInit {
         complete: () => {
           this.usersData.users = this.usersData.users.filter(user => user.id !== userId);
           this.showDeletionSuccess();
+          this.renderUsers();
         },
         error: (err) => {
           console.error(err);

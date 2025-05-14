@@ -11,11 +11,11 @@ import { CommonModule } from '@angular/common';
 export class UserRowComponent {
 
   @Input() user!: User;
-  @Output() edit = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<User>();
   @Output() delete = new EventEmitter<number>();
 
   onEdit() {
-    this.edit.emit(this.user.id);
+    this.edit.emit(this.user);
   }
 
   onDelete() {

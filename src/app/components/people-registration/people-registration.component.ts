@@ -32,7 +32,6 @@ export class PeopleRegistrationComponent {
     });
 
     this.bsModalRef.content.renderUsersCall.subscribe(() => {
-      console.log("bateu aqui")
       this.userListComponent.renderUsers();
     });
 

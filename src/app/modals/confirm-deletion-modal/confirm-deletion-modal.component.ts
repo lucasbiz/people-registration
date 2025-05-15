@@ -14,8 +14,8 @@ export class ConfirmDeletionModalComponent {
   constructor(public bsModalRef: BsModalRef) {};
 
   deleteUser(){
-    this.userDeleted.emit();
     this.closeModal();
+    this.userDeleted.emit();
   }
 
   closeModal() {

@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserRowComponent } from "../user-row/user-row.component";
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
-import { ConfirmDeletionModalComponent } from '../confirm-deletion-modal/confirm-deletion-modal.component';
+import { ConfirmDeletionModalComponent } from '../../modals/confirm-deletion-modal/confirm-deletion-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
-import { RegisterModalComponent } from '../register-modal/register-modal.component';
+import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
+import { take } from 'rxjs';
+
 
 @Component({
   selector: 'app-user-list',
@@ -58,12 +60,12 @@ export class UserListComponent implements OnInit {
       class: 'modal-dialog-centered'
     });
 
-    this.bsModalRef.content.userDeleted.subscribe(() => {
-      this.usersService.deleteUser(userId).subscribe({
-        complete: () => {
-          this.usersData.users = this.usersData.users.filter(user => user.id !== userId);
+    this.bsModalRef.content.userDeleted.pipe(take(1)).subscribe(() => {
+      this.usersService.deleteUser(userId).pipe(take(1)).subscribe({
+        next: () => {
+          this.usersData.users = this.usersData.users.filter(u => u.id !== userId);
+          this.usersData.totalCount--;
           this.showDeletionSuccess();
-          this.renderUsers();
         },
         error: (err) => {
           console.error(err);
@@ -71,6 +73,8 @@ export class UserListComponent implements OnInit {
       })
     })
   };
+
+  // .pipe(take(1)) garante que será ouvida apenas a primeira emissão, evitando memory leak;
 
   showDeletionSuccess() {
 

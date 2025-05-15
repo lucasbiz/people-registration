@@ -2,6 +2,5 @@ body {
   background-image: url("./assets/fundo.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100%;
   font-family:"JetBrains Mono", monospace !important;
 }

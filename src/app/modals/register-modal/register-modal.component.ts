@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { InputButtonComponent } from "../input-button/input-button.component";
+import { InputButtonComponent } from "../../components/input-button/input-button.component";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
@@ -69,7 +69,7 @@ export class RegisterModalComponent {
     const formData = this.form.value;
 
     const obs$ = this.userData
-    ? this.usersService.updateUser(this.userData.id, formData)   // modo edição
+    ? this.usersService.updateUser(this.userData.id, formData)
     : this.usersService.createUser(formData);
 
     obs$.subscribe({
@@ -83,16 +83,12 @@ export class RegisterModalComponent {
 
   }
 
-
-
-
-
   showRegisterSucess() {
 
     const initialState = {
       modalTitle: 'Cadastro criado com sucesso!'
     }
-    this.modalHelperService.showActionSucess(initialState)
+    this.modalHelperService.showActionSucess(initialState, 500)
   }
 
   closeModal() {

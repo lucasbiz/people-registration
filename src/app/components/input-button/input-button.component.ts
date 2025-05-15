@@ -11,11 +11,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class InputButtonComponent {
 
   @Input() value: string = '';
-  @Input() isHomePage: boolean = false;
   @Output() clicked = new EventEmitter<void>();
 
+
   onClick(){
-    console.log("botao clicado");
     this.clicked.emit();
   }
 

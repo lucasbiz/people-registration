@@ -16,7 +16,7 @@ export class SuccessModalComponent {
     constructor(public bsModalRef: BsModalRef) {};
 
     closeModal() {
-    this.bsModalRef.hide();
+      this.bsModalRef.hide();
     };
 
 }

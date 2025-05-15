@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { SuccessModalComponent } from '../components/success-modal/success-modal.component';
+import { SuccessModalComponent } from '../modals/success-modal/success-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,13 @@ export class ModalHelperService {
 
   constructor( private modalService: BsModalService) { }
 
-  showActionSucess(initialState: Object) {
-
-    this.bsModalRef = this.modalService.show(SuccessModalComponent, {
-      initialState,
-      class: 'modal-dialog-centered'
-    });
+  showActionSucess(initialState: any, delayMs: number = 300): void {
+    setTimeout(() => {
+      this.bsModalRef = this.modalService.show(SuccessModalComponent, {
+        initialState,
+        class: 'modal-dialog-centered'
+      });
+    }, delayMs);
   }
 
 

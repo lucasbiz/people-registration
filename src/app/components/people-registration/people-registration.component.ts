@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { UserListComponent } from '../user-list/user-list.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { RegisterModalComponent } from '../register-modal/register-modal.component';
+import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
 import { UsersService } from '../../services/user.service';
 import { ViewChild } from '@angular/core';
 
@@ -18,7 +18,7 @@ export class PeopleRegistrationComponent {
 
   bsModalRef?: BsModalRef;
 
-  constructor(private modalService: BsModalService, private usersService: UsersService) {}
+  constructor(private modalService: BsModalService) {}
 
   newRegister() {
     const initialState = {

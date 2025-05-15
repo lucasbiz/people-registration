@@ -1,59 +1,77 @@
-# PeopleRegistration
+# People Registration
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+People Registration é uma aplicação Angular 19 para gerenciamento de usuários, permitindo operações de CRUD (Criar, Ler, Atualizar e Deletar) com um backend pré-configurado. O projeto segue boas práticas de desenvolvimento Angular, incluindo modularidade, separação de responsabilidades e uso de serviços para comunicação com a API.
 
-## Development server
+## Funcionalidades
 
-To start a local development server, run:
+- Listagem de usuários com paginação
+- Criação de novos usuários via modal
+- Edição de usuários existentes via modal
+- Exclusão de usuários com confirmação via modal
+- Validação de formulários para garantir a integridade dos dados
 
-```bash
-ng serve
+## Tecnologias Utilizadas
+
+- Angular 19
+- TypeScript
+- RxJS para gerenciamento de dados assíncronos
+- Bootstrap para estilização e modais (via `ngx-bootstrap`)
+- Serviços HTTP para comunicação com a API backend
+
+## Pré-requisitos
+
+- Node.js (versão 18 ou superior)
+- Angular CLI (versão 19 ou superior)
+
+## Instalação e Configuração
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/people-registration.git
+   ```
+
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd people-registration
+   ```
+
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+4. Execute o servidor de desenvolvimento:
+   ```bash
+   ng serve
+   ```
+
+5. Acesse a aplicação no navegador:
+   ```
+   http://localhost:4200
+   ```
+
+## Estrutura do Projeto
+
+A estrutura do projeto segue as melhores práticas do Angular, com uma clara separação de componentes, serviços e modelos:
+
+```
+src/
+├── app/
+│   ├── components/               # Componentes genéricos (ex.: input-button)
+│   ├── modals/                  # Componentes de modal (ex.: register-modal, confirm-deletion-modal)
+│   ├── models/                  # Interfaces e modelos (ex.: User)
+│   ├── services/                # Serviços (ex.: user.service.ts, modal-helper.service.ts)
+│   ├── app.component.ts         # Componente raiz
+│   ├── app.module.ts            # Módulo principal
+│   └── app.routes.ts            # Configuração de rotas
+├── assets/                      # Arquivos estáticos (imagens, etc.)
+└── environments/                # Configurações de ambiente (dev, prod)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Principais Componentes e Serviços
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **UserListComponent**: Exibe a lista de usuários e gerencia a abertura dos modais para criação, edição e exclusão.
+- **RegisterModalComponent**: Modal reutilizável para criação e edição de usuários.
+- **ConfirmDeletionModalComponent**: Modal de confirmação para exclusão de usuários.
+- **UserService**: Serviço responsável pela comunicação com a API backend para operações CRUD de usuários.
+- **ModalHelperService**: Serviço auxiliar para gerenciar a abertura e configuração dos modais.

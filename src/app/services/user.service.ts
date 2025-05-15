@@ -9,7 +9,7 @@ import { User, UsersData } from '../models/user.model';
 export class UsersService {
 
   // private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/';
-  private baseApiUrl = 'http://localhost:3000/api/';
+  private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/persons';
 
   constructor(private http: HttpClient) { }
 
@@ -25,7 +25,7 @@ export class UsersService {
         page: number,
         limit: number,
         count: number
-      }>(`${this.baseApiUrl + 'persons'}`, {params});
+      }>(`${this.baseApiUrl}`, {params});
   }
 
   createUser(userData: any): Observable<any> {
@@ -42,11 +42,11 @@ export class UsersService {
       birthDate: isoDate,
     };
 
-    return this.http.post(this.baseApiUrl + 'persons', payload);
+    return this.http.post(this.baseApiUrl, payload);
   }
 
   deleteUser(userID: number){
-    return this.http.delete(this.baseApiUrl + 'persons/' + userID);
+    return this.http.delete(this.baseApiUrl + '/' + userID);
   }
 
   updateUser(id: number, userData: any): Observable<any>{
@@ -63,13 +63,10 @@ export class UsersService {
       birthDate: isoDate,
     };
 
-    return this.http.put(`${this.baseApiUrl}persons/${id}`, payload);
+    return this.http.put(`${this.baseApiUrl}/${id}`, payload);
   }
 
-
-// user.service.ts
 loadUsers(page: number = 1, limit: number = 10): Observable<UsersData> {
-  console.log("loadusers executado")
   return this.getUsers(page, limit).pipe(
     map(response => {
       return {

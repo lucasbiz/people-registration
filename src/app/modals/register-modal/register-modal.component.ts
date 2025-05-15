@@ -17,13 +17,13 @@ import { User } from '../../models/user.model';
 })
 export class RegisterModalComponent {
 
-  modalTitle: string = '';
-
-
   form: FormGroup;
 
   @Output() renderUsersCall = new EventEmitter<void>();
   @Input() userData?: User;
+  @Input() saveButtonText?: string = '';
+  @Input() modalTitle?: string = '';
+
 
   constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
 
@@ -53,13 +53,25 @@ export class RegisterModalComponent {
         name: this.userData.name,
         email: this.userData.email,
         phone: this.userData.phone,
-        birthDate: this.userData.birthDate
+        birthDate: this.formatDate(this.userData.birthDate)
       });
     }
   }
 
 
-  saveNewRegister() {
+  formatDate(isoDate: string){
+
+    const timestamp = Date.parse(isoDate);
+    const data = new Date(timestamp);
+    const dia = data.getDate().toString().padStart(2, '0');
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    const ano = data.getFullYear();
+
+    return `${dia}/${mes}/${ano}`;
+
+  }
+
+  saveRegister() {
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -68,28 +80,36 @@ export class RegisterModalComponent {
 
     const formData = this.form.value;
 
-    const obs$ = this.userData
-    ? this.usersService.updateUser(this.userData.id, formData)
-    : this.usersService.createUser(formData);
 
-    obs$.subscribe({
-      next: () => {
-        this.renderUsersCall.emit();
-        this.closeModal();
-        this.showRegisterSucess();
-      },
-      error: err => console.error(err)
-    });
+    if (this.userData){
+      this.usersService.updateUser(this.userData.id, formData).subscribe({
+        next: () => {
+          this.renderUsersCall.emit();
+          this.closeModal();
+          this.showRegisterSucess("Cadastro editado com sucesso!");
+        },
+        error: err => console.error(err)
+      });
+    } else {
+      this.usersService.createUser(formData).subscribe({
+        next: () => {
+          this.renderUsersCall.emit();
+          this.closeModal();
+          this.showRegisterSucess("Cadastro criado com sucesso!");
+        },
+        error: err => console.error(err)
+      });
 
+    }
   }
 
-  showRegisterSucess() {
+  showRegisterSucess(successModalTitle: string) {
 
     const initialState = {
-      modalTitle: 'Cadastro criado com sucesso!'
-    }
+      modalTitle: `${successModalTitle}`
+    };
     this.modalHelperService.showActionSucess(initialState, 500)
-  }
+  };
 
   closeModal() {
     this.bsModalRef.hide();

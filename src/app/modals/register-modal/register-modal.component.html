@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body">
 
-  <form [formGroup]="form" (ngSubmit)="saveNewRegister()">
+  <form [formGroup]="form" (ngSubmit)="saveRegister()">
     <div class="mb-3">
       <label class="form-label">Nome</label>
       <input type="text" formControlName="name" class="form-control" [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched" data-cy="input-nome">
@@ -34,7 +34,7 @@
 
 </div>
 <div class="modal-footer d-flex flex-column gap-2">
-  <app-input-button [value]="'Novo Cadastro'" (clicked)="saveNewRegister()"></app-input-button>
+  <app-input-button [value]=`${modalTitle}` (clicked)="saveRegister()"></app-input-button>
   <button class="w-25 mx-auto btn" (click)="closeModal()">Cancelar</button>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { InputButtonComponent } from "../../components/input-button/input-button.component";
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -15,7 +15,7 @@ import { User } from '../../models/user.model';
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.css'
 })
-export class RegisterModalComponent {
+export class RegisterModalComponent implements OnInit{
 
   form: FormGroup;
 

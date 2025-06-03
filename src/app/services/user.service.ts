@@ -8,7 +8,6 @@ import { User, UsersData } from '../models/user.model';
 })
 export class UsersService {
 
-  // private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/';
   private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/persons';
 
   constructor(private http: HttpClient) { }

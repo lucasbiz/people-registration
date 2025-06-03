@@ -11,7 +11,7 @@ export class ModalHelperService {
 
   constructor( private modalService: BsModalService) { }
 
-  showActionSucess(initialState: any, delayMs: number = 300): void {
+  showActionSucess(initialState: object, delayMs: number = 300): void {
     setTimeout(() => {
       this.bsModalRef = this.modalService.show(SuccessModalComponent, {
         initialState,

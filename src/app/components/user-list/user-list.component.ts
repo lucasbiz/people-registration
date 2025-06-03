@@ -73,9 +73,6 @@ export class UserListComponent implements OnInit {
       })
     })
   };
-
-  // .pipe(take(1)) garante que será ouvida apenas a primeira emissão, evitando memory leak;
-
   showDeletionSuccess() {
 
     const initialState = {

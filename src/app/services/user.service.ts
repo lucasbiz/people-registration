@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { User, UsersData } from '../models/user.model';
+import { baseApiUrl } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
 
-  private baseApiUrl = 'https://dev-api-plt.4asset.net.br/exam/v1/persons';
+export class UsersService {
 
   constructor(private http: HttpClient) { }
 
@@ -24,7 +24,7 @@ export class UsersService {
         page: number,
         limit: number,
         count: number
-      }>(`${this.baseApiUrl}`, {params});
+      }>(`${baseApiUrl}`, {params});
   }
 
   createUser(userData: any): Observable<any> {
@@ -41,11 +41,11 @@ export class UsersService {
       birthDate: isoDate,
     };
 
-    return this.http.post(this.baseApiUrl, payload);
+    return this.http.post(baseApiUrl, payload);
   }
 
   deleteUser(userID: number){
-    return this.http.delete(this.baseApiUrl + '/' + userID);
+    return this.http.delete(baseApiUrl + '/' + userID);
   }
 
   updateUser(id: number, userData: any): Observable<any> {
@@ -68,7 +68,7 @@ export class UsersService {
       birthDate: birthDate,
     };
 
-    return this.http.patch(`${this.baseApiUrl}/${id}`, payload);
+    return this.http.patch(`${baseApiUrl}/${id}`, payload);
   }
 
 loadUsers(page: number = 1, limit: number = 10): Observable<UsersData> {

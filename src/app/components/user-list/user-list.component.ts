@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserRowComponent } from "../user-row/user-row.component";
+import { UserRowComponent } from '../user-row/user-row.component';
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
@@ -36,13 +36,13 @@ export class UserListComponent implements OnInit {
     this.renderUsers();
   };
 
-  onEdit(user: User) {
+  onEdit(user: User): void {
 
     const initialState = {
         modalTitle: 'Editar cadastro',
         saveButtonText: 'Salvar alterações',
         userData: user
-      }
+      };
 
     this.bsModalRef = this.modalService.show(RegisterModalComponent, {
       initialState,
@@ -54,7 +54,7 @@ export class UserListComponent implements OnInit {
     });
     };
 
-  onDelete(userId: number) {
+  onDelete(userId: number): void {
 
     this.bsModalRef = this.modalService.show(ConfirmDeletionModalComponent, {
       class: 'modal-dialog-centered'
@@ -70,22 +70,25 @@ export class UserListComponent implements OnInit {
         error: (err) => {
           console.error(err);
         }
-      })
-    })
+      });
+    });
   };
-  showDeletionSuccess() {
+
+  showDeletionSuccess(): void {
 
     const initialState = {
-      modalTitle: 'Cadastro excluído com sucesso!'
-    }
-    this.modalHelperService.showActionSucess(initialState)
-    }
+      modalTitle: 'Cadastro excluído com sucesso!'};
 
-  renderUsers(pageNumber : number = 1){
+    this.modalHelperService.showActionSucess(initialState);
+
+    };
+
+  renderUsers(pageNumber : number = 1): void{
+
     this.usersService.getUsers(pageNumber).subscribe({
       next: (data: UsersData) => {
         this.usersData = data;
-        console.log(this.usersData)
+        console.log(this.usersData);
       },
       error: (err) => {
         console.error('Erro ao carregar usuários:', err);

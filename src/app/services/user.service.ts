@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
-import { UsersData, RawUsersResponse, UserForm, User } from '../models/user.model';
+import { RawUsersResponse, User, UserForm, UsersData } from '../models/user.model';
 import { baseApiUrl } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { payloadHelper } from '../helpers/user.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -31,49 +32,16 @@ export class UsersService {
 
   createUser(userData: UserForm): Observable<User> {
 
-    const formattedDate = userData.birthDate.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
-    const [day, month, year] = formattedDate.split('/');
-    const isoDate = new Date(`${year}-${month}-${day}`).toISOString();
-
-    const formattedPhone = userData.phone.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-
-    const payload = {
-      ...userData,
-      phone: formattedPhone,
-      birthDate: isoDate,
-    };
-
-    return this.http.post<User>(baseApiUrl, payload);
+    return this.http.post<User>(baseApiUrl, payloadHelper(userData));
   }
 
-  deleteUser(userID: number){
-    return this.http.delete(baseApiUrl + '/' + userID);
+  deleteUser(userID: number): Observable<number>{
+
+    return this.http.delete<number>(baseApiUrl + '/' + userID);
   }
 
-  updateUser(id: number, userFormValue: UserForm): Observable<User> {
-    
-    let birthDate: string = userFormValue.birthDate;
-    if (birthDate) {
-      const formattedDate = birthDate.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
-      const [day, month, year] = formattedDate.split('/');
-      birthDate = new Date(`${year}-${month}-${day}`).toISOString();
-    }
+  updateUser(id: number, userData: UserForm): Observable<User> {
 
-    let phone = userFormValue.phone;
-    if (phone) {
-      phone = phone.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-    }
-
-    const payload = {
-      ...userFormValue,
-      phone: phone,
-      birthDate: birthDate,
-    };
-
-    return this.http.patch<User>(`${baseApiUrl}/${id}`, payload);
+    return this.http.patch<User>(`${baseApiUrl}/${id}`, payloadHelper(userData));
   }
-
-
-
-
 }

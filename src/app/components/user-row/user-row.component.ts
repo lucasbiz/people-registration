@@ -14,11 +14,11 @@ export class UserRowComponent {
   @Output() edit = new EventEmitter<User>();
   @Output() delete = new EventEmitter<number>();
 
-  onEdit() {
+  onEdit(): void{
     this.edit.emit(this.user);
   }
 
-  onDelete() {
+  onDelete(): void{
     this.delete.emit(this.user.id);
   }
 

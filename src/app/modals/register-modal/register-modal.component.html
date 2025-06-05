@@ -29,13 +29,12 @@
       <div class="invalid-feedback">Data de nascimento inválida.</div>
     </div>
 
+    <div class=" w-75 mx-auto d-flex flex-column">
+      <app-input-button [value]=`${modalTitle}` (clicked)="saveRegister()" type="submit"></app-input-button>
+    </div>
   </form>
-
-
 </div>
-<div class="modal-footer d-flex flex-column gap-2">
-  <app-input-button [value]=`${modalTitle}` (clicked)="saveRegister()"></app-input-button>
-  <button class="w-25 mx-auto btn" (click)="closeModal()">Cancelar</button>
-</div>
+<button class="w-25 mx-auto btn d-flex flex-column my-3" (click)="closeModal()">Cancelar</button>
+
 
 

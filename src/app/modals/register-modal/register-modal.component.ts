@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { InputButtonComponent } from "../../components/input-button/input-button.component";
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { InputButtonComponent } from '../../components/input-button/input-button.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
-import { User } from '../../models/user.model';
+import { User, UserForm } from '../../models/user.model';
 
 
 @Component({
@@ -47,7 +47,7 @@ export class RegisterModalComponent implements OnInit{
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.userData) {
       this.form.patchValue({
         name: this.userData.name,
@@ -59,7 +59,7 @@ export class RegisterModalComponent implements OnInit{
   }
 
 
-  formatDate(isoDate: string){
+  formatDate(isoDate: string): string{
 
     const timestamp = Date.parse(isoDate);
     const data = new Date(timestamp);
@@ -69,24 +69,20 @@ export class RegisterModalComponent implements OnInit{
 
     return `${dia}/${mes}/${ano}`;
 
-  }
+  };
 
-  saveRegister() {
+  saveRegister(): void {
 
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
+    if (!this.form.valid) return this.form.markAllAsTouched();
 
-    const formData = this.form.value;
-
+    const formData: UserForm = this.form.value;
 
     if (this.userData){
       this.usersService.updateUser(this.userData.id, formData).subscribe({
         next: () => {
           this.renderUsersCall.emit();
           this.closeModal();
-          this.showRegisterSucess("Cadastro editado com sucesso!");
+          this.showRegisterSucess('Cadastro editado com sucesso!');
         },
         error: err => console.error(err)
       });
@@ -95,7 +91,7 @@ export class RegisterModalComponent implements OnInit{
         next: () => {
           this.renderUsersCall.emit();
           this.closeModal();
-          this.showRegisterSucess("Cadastro criado com sucesso!");
+          this.showRegisterSucess('Cadastro criado com sucesso!');
         },
         error: err => console.error(err)
       });
@@ -103,15 +99,13 @@ export class RegisterModalComponent implements OnInit{
     }
   }
 
-  showRegisterSucess(successModalTitle: string) {
+  showRegisterSucess(successModalTitle: string): void {
 
     const initialState = {
       modalTitle: `${successModalTitle}`
     };
-    this.modalHelperService.showActionSucess(initialState, 500)
+    this.modalHelperService.showActionSucess(initialState, 500);
   };
 
-  closeModal() {
-    this.bsModalRef.hide();
-  };
+  closeModal = (): void => this.bsModalRef.hide();
 }

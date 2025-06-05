@@ -9,9 +9,23 @@ export interface User {
 }
 
 export interface UsersData {
-  users: User[],
-  currentPage: number,
-  limit: number,
-  totalCount: number,
-  totalPages: number
+  users: User[];
+  currentPage: number;
+  limit: number;
+  totalCount: number;
+  totalPages: number;
+}
+
+export interface RawUsersResponse {
+  results: User[];
+  page: number;
+  limit: number;
+  count: number;
+}
+
+export interface UserForm {
+  name: string;
+  email: string;
+  phone: string;
+  birthDate: string;
 }

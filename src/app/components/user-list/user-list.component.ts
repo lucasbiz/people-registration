@@ -82,9 +82,10 @@ export class UserListComponent implements OnInit {
     }
 
   renderUsers(pageNumber : number = 1){
-    this.usersService.loadUsers(pageNumber).subscribe({
+    this.usersService.getUsers(pageNumber).subscribe({
       next: (data: UsersData) => {
         this.usersData = data;
+        console.log(this.usersData)
       },
       error: (err) => {
         console.error('Erro ao carregar usuários:', err);

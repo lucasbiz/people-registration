@@ -6,6 +6,7 @@ import { UsersService } from '../../services/user.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
 import { User, UserForm } from '../../models/user.model';
+import { formatDateDayMonthYear } from '../../utils/date-utils';
 
 
 @Component({
@@ -53,27 +54,17 @@ export class RegisterModalComponent implements OnInit{
         name: this.userData.name,
         email: this.userData.email,
         phone: this.userData.phone,
-        birthDate: this.formatDate(this.userData.birthDate)
+        birthDate: formatDateDayMonthYear(this.userData.birthDate)
       });
     }
   }
 
-
-  formatDate(isoDate: string): string{
-
-    const timestamp = Date.parse(isoDate);
-    const data = new Date(timestamp);
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-    const ano = data.getFullYear();
-
-    return `${dia}/${mes}/${ano}`;
-
-  };
-
   saveRegister(): void {
 
-    if (!this.form.valid) return this.form.markAllAsTouched();
+    if (!this.form.valid) { 
+      this.form.markAllAsTouched();
+      return;
+    };
 
     const formData: UserForm = this.form.value;
 

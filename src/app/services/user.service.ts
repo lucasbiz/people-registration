@@ -31,7 +31,6 @@ export class UsersService {
   }
 
   createUser(userData: UserForm): Observable<User> {
-
     return this.http.post<User>(baseApiUrl, payloadHelper(userData));
   }
 
@@ -41,7 +40,6 @@ export class UsersService {
   }
 
   updateUser(id: number, userData: UserForm): Observable<User> {
-
     return this.http.patch<User>(`${baseApiUrl}/${id}`, payloadHelper(userData));
   }
 }

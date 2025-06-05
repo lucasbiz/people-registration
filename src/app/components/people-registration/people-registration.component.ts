@@ -23,7 +23,7 @@ export class PeopleRegistrationComponent {
     const initialState = {
       modalTitle: 'Criar novo cadastro',
       saveButtonText: 'Novo cadastro'
-    }
+    };
 
     this.bsModalRef = this.modalService.show(RegisterModalComponent, {
       initialState,

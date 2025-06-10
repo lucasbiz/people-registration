@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
 import { ViewChild } from '@angular/core';
 
+
 @Component({
   selector: 'app-people-registration',
   imports: [InputButtonComponent, UserListComponent],
@@ -19,7 +20,7 @@ export class PeopleRegistrationComponent {
 
   constructor(private modalService: BsModalService) {}
 
-  newRegister() {
+  newRegister():void {
     const initialState = {
       modalTitle: 'Criar novo cadastro',
       saveButtonText: 'Novo cadastro'

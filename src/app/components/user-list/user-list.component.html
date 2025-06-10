@@ -1,20 +1,31 @@
-<div class="table bg-white">
-  <div class="table-header text-white d-flex">
-    <div class="col">Nome</div>
-    <div class="col">E-mail</div>
-    <div class="col">Telefone</div>
-    <div class="col">Data de nascimento</div>
-    <div class="actions"></div>
+<div class="w-full bg-white">
+  <!-- Cabeçalho da "tabela" -->
+  <div class="flex bg-gray-800 text-white">
+    <div class="flex-1 p-3">Nome</div>
+    <div class="flex-1 p-3">E-mail</div>
+    <div class="flex-1 p-3">Telefone</div>
+    <div class="flex-1 p-3">Data de nascimento</div>
+    <!-- coluna de ações com largura fixa -->
+    <div class="w-24 p-3"></div>
   </div>
-  <app-user-row
-  *ngFor="let user of usersData.users"
-  [user]="user"
-  (edit)="onEdit($event)"
-  (delete)="onDelete($event)"
-  ></app-user-row>
-  <div class="p-3 mx-auto">
-    <button class="btn m-3 btn-outline-dark" (click)="renderUsers(usersData.currentPage - 1)" [disabled]="usersData.currentPage === 1">Anterior</button>
-    <span>Página {{ usersData.currentPage }} de {{usersData.totalPages}}</span>
-    <button class="btn m-3 btn-outline-dark" (click)="renderUsers(usersData.currentPage + 1)" [disabled]="usersData.currentPage * usersData.limit >= usersData.totalCount">Próxima</button>
+
+  <!-- Linhas geradas via *ngFor -->
+  <ng-container *ngFor="let user of usersData.users">
+    <app-user-row [user]="user" (edit)="onEdit($event)" (delete)="onDelete($event)"></app-user-row>
+  </ng-container>
+
+  <!-- Paginação -->
+  <div class="flex items-center justify-center p-3 space-x-4">
+    <button class="px-4 py-2 border border-gray-800 rounded disabled:opacity-50"
+      (click)="renderUsers(usersData.currentPage - 1)" [disabled]="usersData.currentPage === 1">
+      Anterior
+    </button>
+    <span>Página {{ usersData.currentPage }} de {{ usersData.totalPages }}</span>
+    <button class="px-4 py-2 border border-gray-800 rounded disabled:opacity-50"
+      (click)="renderUsers(usersData.currentPage + 1)"
+      [disabled]="usersData.currentPage * usersData.limit >= usersData.totalCount">
+      Próxima
+    </button>
   </div>
 </div>
+

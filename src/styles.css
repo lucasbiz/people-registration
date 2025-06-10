@@ -1,3 +1,4 @@
+@import "primeicons/primeicons.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,4 +21,5 @@ body {
   background-repeat: no-repeat;
   font-family:"JetBrains Mono", monospace;
 }
+
 

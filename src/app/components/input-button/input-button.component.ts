@@ -15,7 +15,7 @@ export class InputButtonComponent {
   @Output() clicked = new EventEmitter<void>();
 
 
-  onClick(){
+  onClick(): void{
     this.clicked.emit();
   }
 

@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class InputButtonComponent {
 
-  @Input() value: string = '';
+  @Input() value: string|undefined;
   @Output() clicked = new EventEmitter<void>();
 
 

@@ -1,23 +1,51 @@
 import { Injectable } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { SuccessModalComponent } from '../modals/success-modal/success-modal.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class ModalHelperService {
 
-  bsModalRef?: BsModalRef;
+  dialogRef: DynamicDialogRef | undefined;
 
-  constructor( private modalService: BsModalService) { }
+  constructor (private dialogService: DialogService){};
 
-  showActionSucess(initialState: object, delayMs: number = 300): void {
-    setTimeout(() => {
-      this.bsModalRef = this.modalService.show(SuccessModalComponent, {
-        initialState,
-        class: 'modal-dialog-centered'
-      });
-    }, delayMs);
+  newRegister():void {
+    this.dialogRef = this.dialogService.open(RegisterModalComponent, {
+      data: {
+        modalTitle: 'Criar novo cadastro',
+      },
+      width: '50vw',
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+    });
+
+    this.dialogRef.onClose.subscribe(() => {
+      this.usersService.getUsers();
+    });
+  }
+
+  editRegister(): void {
+    this.dialogRef = this.dialogService.open(RegisterModalComponent, {
+      data: {
+        modalTitle: 'Editar ',
+      },
+      width: '50vw',
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+    });
+
+    this.dialogRef.onClose.subscribe(() => {
+      this.usersService.getUsers();
+    });
   }
 
 

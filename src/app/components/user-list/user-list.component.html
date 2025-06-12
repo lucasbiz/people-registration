@@ -1,19 +1,15 @@
-<div class="w-full bg-white">
-  <div class="grid grid-cols-5 gap-3 bg-gray-900 text-white">
-    <div class="">Nome</div>
-    <div class="">E-mail</div>
-    <div class="">Telefone</div>
-    <div class="">Data de nascimento</div>
-    <!-- coluna de ações com largura fixa -->
-    <div class="w-24 p-3"></div>
+<div class="bg-white min-w-[1024px]">
+  <div class="grid grid-cols-4 font-bold bg-gray-900 text-white p-3">
+    <div class="pl-6 col-2">Nome</div>
+    <div>E-mail</div>
+    <div>Telefone</div>
+    <div>Data de nascimento</div>
   </div>
 
-  <!-- Linhas geradas via *ngFor -->
   <ng-container *ngFor="let user of usersData.users">
     <app-user-row [user]="user" (edit)="onEdit($event)" (delete)="onDelete($event)"></app-user-row>
   </ng-container>
 
-  <!-- Paginação -->
   <div class="flex items-center justify-center p-3 space-x-4">
     <button class="px-4 py-2 border border-gray-800 rounded disabled:opacity-50"
       (click)="renderUsers(usersData.currentPage - 1)" [disabled]="usersData.currentPage === 1">

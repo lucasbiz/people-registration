@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { UserListComponent } from '../user-list/user-list.component';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
 import { ViewChild } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UsersService } from '../../services/user.service';
 
 
 @Component({
   selector: 'app-people-registration',
   imports: [InputButtonComponent, UserListComponent],
+  providers: [DialogService],
   templateUrl: './people-registration.component.html',
   styleUrl: './people-registration.component.css'
 })
@@ -16,25 +18,29 @@ export class PeopleRegistrationComponent {
 
   @ViewChild(UserListComponent) userListComponent!: UserListComponent;
 
-  bsModalRef?: BsModalRef;
+  dialogRef: DynamicDialogRef | undefined;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private dialogService: DialogService, private usersService: UsersService) {}
 
   newRegister():void {
-    const initialState = {
-      modalTitle: 'Criar novo cadastro',
-      saveButtonText: 'Novo cadastro'
-    };
 
-    this.bsModalRef = this.modalService.show(RegisterModalComponent, {
-      initialState,
-      class: 'modal-dialog-centered'
+    this.dialogRef = this.dialogService.open(RegisterModalComponent, {
+      data: {
+        modalTitle: 'Criar novo cadastro',
+        saveButtonText: 'Novo cadastro',
+        userData: null
+      },
+      width: '50vw',
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
     });
 
-    this.bsModalRef.content.renderUsersCall.subscribe(() => {
-      this.userListComponent.renderUsers();
+    this.dialogRef.onClose.subscribe(() => {
+      this.usersService.getUsers();
     });
-
   }
 }
 

@@ -9,7 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class ConfirmDeletionModalComponent {
 
-  @Output() userDeleted = new EventEmitter<void>()
+  @Output() userDeleted = new EventEmitter<void>();
 
   constructor(public bsModalRef: BsModalRef) {};
 

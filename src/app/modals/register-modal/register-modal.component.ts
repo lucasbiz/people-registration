@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InputButtonComponent } from '../../components/input-button/input-button.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
 import { User, UserForm } from '../../models/user.model';
 import { formatDateDayMonthYear } from '../../utils/date-utils';
+import { ButtonModule } from 'primeng/button';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+
 
 
 @Component({
   selector: 'app-register-modal',
-  imports: [InputButtonComponent, ReactiveFormsModule, NgxMaskDirective],
+  imports: [ReactiveFormsModule, NgxMaskDirective, ButtonModule],
   providers: [provideNgxMask()],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.css'
@@ -19,14 +20,22 @@ import { formatDateDayMonthYear } from '../../utils/date-utils';
 export class RegisterModalComponent implements OnInit{
 
   form: FormGroup;
+  visible: boolean = false;
 
+  showErrors = false;
   @Output() renderUsersCall = new EventEmitter<void>();
   @Input() userData?: User;
   @Input() saveButtonText?: string = '';
   @Input() modalTitle?: string = '';
 
 
-  constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
+  constructor(
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private modalHelperService: ModalHelperService
+  ) {
 
     this.form = this.fb.group({
       name: this.fb.control('', {
@@ -49,6 +58,10 @@ export class RegisterModalComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.modalTitle = this.config.data?.modalTitle || '';
+    this.saveButtonText = this.config.data?.saveButtonText || '';
+    this.userData = this.config.data?.userData;
+  
     if (this.userData) {
       this.form.patchValue({
         name: this.userData.name,
@@ -58,9 +71,12 @@ export class RegisterModalComponent implements OnInit{
       });
     }
   }
+  
 
   saveRegister(): void {
 
+    this.showErrors = true;
+    console.log('aa');
     if (!this.form.valid) { 
       this.form.markAllAsTouched();
       return;
@@ -98,5 +114,5 @@ export class RegisterModalComponent implements OnInit{
     this.modalHelperService.showActionSucess(initialState, 500);
   };
 
-  closeModal = (): void => this.bsModalRef.hide();
+  closeModal = (): void => this.ref.close();
 }

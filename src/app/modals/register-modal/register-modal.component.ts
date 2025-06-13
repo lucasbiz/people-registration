@@ -2,11 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
-import { ModalHelperService } from '../../services/modal-helper.service';
 import { User, UserForm } from '../../models/user.model';
 import { formatDateDayMonthYear } from '../../utils/date-utils';
 import { ButtonModule } from 'primeng/button';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 
 
@@ -24,17 +23,15 @@ export class RegisterModalComponent implements OnInit{
 
   showErrors = false;
   @Output() renderUsersCall = new EventEmitter<void>();
-  @Input() userData?: User;
-  @Input() saveButtonText?: string = '';
+  @Input() formInputs!: User;
   @Input() modalTitle?: string = '';
+  @Input() saveButtonText?: string = '';
 
 
   constructor(
     public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
     private fb: FormBuilder,
     private usersService: UsersService,
-    private modalHelperService: ModalHelperService
   ) {
 
     this.form = this.fb.group({
@@ -58,25 +55,19 @@ export class RegisterModalComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.modalTitle = this.config.data?.modalTitle || '';
-    this.saveButtonText = this.config.data?.saveButtonText || '';
-    this.userData = this.config.data?.userData;
-  
-    if (this.userData) {
+    if (this.formInputs) {
       this.form.patchValue({
-        name: this.userData.name,
-        email: this.userData.email,
-        phone: this.userData.phone,
-        birthDate: formatDateDayMonthYear(this.userData.birthDate)
+        name: this.formInputs.name,
+        email: this.formInputs.email,
+        phone: this.formInputs.phone,
+        birthDate: formatDateDayMonthYear(this.formInputs.birthDate)
       });
     }
   }
-  
 
   saveRegister(): void {
 
     this.showErrors = true;
-    console.log('aa');
     if (!this.form.valid) { 
       this.form.markAllAsTouched();
       return;
@@ -84,8 +75,8 @@ export class RegisterModalComponent implements OnInit{
 
     const formData: UserForm = this.form.value;
 
-    if (this.userData){
-      this.usersService.updateUser(this.userData.id, formData).subscribe({
+    if (this.formInputs){
+      this.usersService.updateUser(this.formInputs.id, formData).subscribe({
         next: () => {
           this.renderUsersCall.emit();
           this.closeModal();
@@ -107,11 +98,7 @@ export class RegisterModalComponent implements OnInit{
   }
 
   showRegisterSucess(successModalTitle: string): void {
-
-    const initialState = {
-      modalTitle: `${successModalTitle}`
-    };
-    this.modalHelperService.showActionSucess(initialState, 500);
+    console.log(successModalTitle);
   };
 
   closeModal = (): void => this.ref.close();

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
+import { User } from '../models/user.model';
+import { ConfirmDeletionModalComponent } from '../modals/confirm-deletion-modal/confirm-deletion-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +13,18 @@ export class ModalHelperService {
 
   dialogRef: DynamicDialogRef | undefined;
 
-  constructor (private dialogService: DialogService){};
+  constructor (
+    private dialogService: DialogService,
+ ){};
 
-  newRegister():void {
+  registerOrEdit(dialogTitle: string, userData?: User): void {
+
     this.dialogRef = this.dialogService.open(RegisterModalComponent, {
-      data: {
-        modalTitle: 'Criar novo cadastro',
+      inputValues: {
+        modalTitle: dialogTitle,
+        formInputs: userData
       },
+      
       width: '50vw',
       modal:true,
       breakpoints: {
@@ -24,17 +32,11 @@ export class ModalHelperService {
           '640px': '90vw'
       },
     });
-
-    this.dialogRef.onClose.subscribe(() => {
-      this.usersService.getUsers();
-    });
   }
 
-  editRegister(): void {
-    this.dialogRef = this.dialogService.open(RegisterModalComponent, {
-      data: {
-        modalTitle: 'Editar ',
-      },
+  confirmDeletion(): void {
+
+    this.dialogRef = this.dialogService.open(ConfirmDeletionModalComponent, {       
       width: '50vw',
       modal:true,
       breakpoints: {
@@ -42,11 +44,7 @@ export class ModalHelperService {
           '640px': '90vw'
       },
     });
-
-    this.dialogRef.onClose.subscribe(() => {
-      this.usersService.getUsers();
-    });
   }
 
-
+  
 }

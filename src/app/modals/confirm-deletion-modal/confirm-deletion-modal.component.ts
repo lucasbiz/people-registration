@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+
 
 @Component({
   selector: 'app-confirm-deletion-modal',
@@ -11,15 +12,9 @@ export class ConfirmDeletionModalComponent {
 
   @Output() userDeleted = new EventEmitter<void>();
 
-  constructor(public bsModalRef: BsModalRef) {};
+  constructor(private dynamicDialogRef: DynamicDialogRef) {};
 
-  deleteUser(){
-    this.closeModal();
-    this.userDeleted.emit();
-  }
-
-  closeModal() {
-    this.bsModalRef.hide();
-  }
+  confirmDeletion(deleteUser: boolean): void {
+    this.dynamicDialogRef.close(deleteUser);
+  };
 };
-

@@ -3,10 +3,8 @@ import { UserRowComponent } from '../user-row/user-row.component';
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
-import { ConfirmDeletionModalComponent } from '../../modals/confirm-deletion-modal/confirm-deletion-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
-import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
 import { take } from 'rxjs';
 
 
@@ -30,7 +28,7 @@ export class UserListComponent implements OnInit {
 
   bsModalRef?: BsModalRef;
 
-  constructor(private usersService: UsersService, private modalService: BsModalService, private modalHelperService: ModalHelperService) {}
+  constructor(private usersService: UsersService, private modalHelperService: ModalHelperService) {}
 
   ngOnInit(): void {
     this.renderUsers();
@@ -38,27 +36,13 @@ export class UserListComponent implements OnInit {
 
   onEdit(user: User): void {
 
-    const initialState = {
-        modalTitle: 'Editar cadastro',
-        saveButtonText: 'Salvar alterações',
-        userData: user
-      };
+    this.modalHelperService.registerOrEdit('Editar cadastro', user);
 
-    this.bsModalRef = this.modalService.show(RegisterModalComponent, {
-      initialState,
-      class: 'modal-dialog-centered'
-    });
-
-    this.bsModalRef.content.renderUsersCall.subscribe(() => {
-      this.renderUsers(this.usersData.currentPage);
-    });
-    };
+  }
 
   onDelete(userId: number): void {
 
-    this.bsModalRef = this.modalService.show(ConfirmDeletionModalComponent, {
-      class: 'modal-dialog-centered'
-    });
+    this.modalHelperService.confirmDeletion();
 
     this.bsModalRef.content.userDeleted.pipe(take(1)).subscribe(() => {
       this.usersService.deleteUser(userId).pipe(take(1)).subscribe({
@@ -79,7 +63,8 @@ export class UserListComponent implements OnInit {
     const initialState = {
       modalTitle: 'Cadastro excluído com sucesso!'};
 
-    this.modalHelperService.showActionSucess(initialState);
+    console.log(initialState);
+
 
     };
 

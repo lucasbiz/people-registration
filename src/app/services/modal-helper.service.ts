@@ -3,6 +3,8 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
 import { User } from '../models/user.model';
 import { ConfirmDeletionModalComponent } from '../modals/confirm-deletion-modal/confirm-deletion-modal.component';
+import { Observable } from 'rxjs';
+import { SuccessModalComponent } from '../modals/success-modal/success-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +36,7 @@ export class ModalHelperService {
     });
   }
 
-  confirmDeletion(): void {
+  confirmDeletion(): Observable<boolean> {
 
     this.dialogRef = this.dialogService.open(ConfirmDeletionModalComponent, {       
       width: '50vw',
@@ -44,7 +46,20 @@ export class ModalHelperService {
           '640px': '90vw'
       },
     });
-  }
+    return this.dialogRef.onClose as Observable<boolean>;
+  };
 
-  
+  showSuccessMessage(dialogTitle: string): void {
+    this.dialogRef = this.dialogService.open(SuccessModalComponent, {
+      inputValues: {
+        modalTitle: dialogTitle
+      },
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      }
+    });
+  };
+
 }

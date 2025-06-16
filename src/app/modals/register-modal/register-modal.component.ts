@@ -6,7 +6,7 @@ import { User, UserForm } from '../../models/user.model';
 import { formatDateDayMonthYear } from '../../utils/date-utils';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-
+import { ModalHelperService } from '../../services/modal-helper.service';
 
 
 @Component({
@@ -32,6 +32,7 @@ export class RegisterModalComponent implements OnInit{
     public ref: DynamicDialogRef,
     private fb: FormBuilder,
     private usersService: UsersService,
+    private modalHelperService: ModalHelperService
   ) {
 
     this.form = this.fb.group({
@@ -80,7 +81,7 @@ export class RegisterModalComponent implements OnInit{
         next: () => {
           this.renderUsersCall.emit();
           this.closeModal();
-          this.showRegisterSucess('Cadastro editado com sucesso!');
+          this.modalHelperService.showSuccessMessage('Cadastro editado com sucesso!');
         },
         error: err => console.error(err)
       });
@@ -89,17 +90,13 @@ export class RegisterModalComponent implements OnInit{
         next: () => {
           this.renderUsersCall.emit();
           this.closeModal();
-          this.showRegisterSucess('Cadastro criado com sucesso!');
+          this.modalHelperService.showSuccessMessage('Cadastro criado com sucesso!');
         },
         error: err => console.error(err)
       });
 
     }
   }
-
-  showRegisterSucess(successModalTitle: string): void {
-    console.log(successModalTitle);
-  };
 
   closeModal = (): void => this.ref.close();
 }

@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-
-
+import { Input } from '@angular/core';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-success-modal',
-  imports: [],
+  imports: [ButtonModule],
   templateUrl: './success-modal.component.html',
   styleUrl: './success-modal.component.css'
 })
 export class SuccessModalComponent {
 
-    modalTitle: string = '';
+    @Input() modalTitle: string = '';
 
-    constructor(public bsModalRef: BsModalRef) {};
+    constructor(public dynamicDialogRef: DynamicDialogRef) {};
 
-    closeModal() {
-      this.bsModalRef.hide();
+    closeModal(): void {
+      this.dynamicDialogRef.close();
     };
 
 }

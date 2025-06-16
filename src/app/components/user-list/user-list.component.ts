@@ -3,10 +3,9 @@ import { UserRowComponent } from '../user-row/user-row.component';
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
 import { take } from 'rxjs';
-
 
 @Component({
   selector: 'app-user-list',
@@ -42,21 +41,21 @@ export class UserListComponent implements OnInit {
 
   onDelete(userId: number): void {
 
-    this.modalHelperService.confirmDeletion();
-
-    this.bsModalRef.content.userDeleted.pipe(take(1)).subscribe(() => {
-      this.usersService.deleteUser(userId).pipe(take(1)).subscribe({
-        next: () => {
-          this.usersData.users = this.usersData.users.filter(u => u.id !== userId);
-          this.usersData.totalCount--;
-          this.showDeletionSuccess();
-        },
-        error: (err) => {
-          console.error(err);
-        }
-      });
+    this.modalHelperService.confirmDeletion().subscribe((confirmed)=> {
+      if (confirmed) {
+        this.usersService.deleteUser(userId).pipe(take(1)).subscribe({
+          next: () => {
+            this.usersData.users = this.usersData.users.filter(u => u.id !== userId);
+            this.usersData.totalCount--;
+            this.showDeletionSuccess();
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
+      }
     });
-  };
+  }
 
   showDeletionSuccess(): void {
 

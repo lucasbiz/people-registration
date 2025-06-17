@@ -38,19 +38,19 @@ export class RegisterModalComponent implements OnInit{
     this.form = this.fb.group({
       name: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(3)],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
       email: this.fb.control('', {
         validators: [Validators.required, Validators.email],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
       phone: this.fb.control('', {
         validators: [Validators.required],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
       birthDate: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(8)],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
     });
   }

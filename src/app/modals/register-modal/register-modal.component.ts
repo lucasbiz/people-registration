@@ -23,7 +23,7 @@ export class RegisterModalComponent implements OnInit{
 
   showErrors = false;
   @Output() renderUsersCall = new EventEmitter<void>();
-  @Input() formInputs!: User;
+  @Input() formInputs?: User;
   @Input() modalTitle?: string = '';
   @Input() saveButtonText?: string = '';
 
@@ -74,29 +74,28 @@ export class RegisterModalComponent implements OnInit{
       return;
     };
 
+    const onSuccess = (successMessage: string) => {
+      this.modalHelperService.showSuccessMessage(successMessage);
+      this.closeModal();
+    };
+
     const formData: UserForm = this.form.value;
 
     if (this.formInputs){
       this.usersService.updateUser(this.formInputs.id, formData).subscribe({
-        next: () => {
-          this.renderUsersCall.emit();
-          this.closeModal();
-          this.modalHelperService.showSuccessMessage('Cadastro editado com sucesso!');
+        next: () => {onSuccess('Cadastro editado com sucesso!');
         },
         error: err => console.error(err)
       });
     } else {
       this.usersService.createUser(formData).subscribe({
-        next: () => {
-          this.renderUsersCall.emit();
-          this.closeModal();
-          this.modalHelperService.showSuccessMessage('Cadastro criado com sucesso!');
+        next: () => {onSuccess('Cadastro criado com sucesso!');
         },
         error: err => console.error(err)
       });
-
+      
     }
   }
 
-  closeModal = (): void => this.ref.close();
+  closeModal = (): void => this.ref.close(true);
 }

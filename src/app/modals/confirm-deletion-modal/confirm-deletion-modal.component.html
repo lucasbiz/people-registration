@@ -1,5 +1,5 @@
 <div class="border-b p-4">
-  <h3 class="text-lg font-bold">Excluir cadastro</h3>
+  <h3 class="text-2xl font-bold">Excluir cadastro</h3>
 </div>
 
 <div class="p-4">
@@ -7,13 +7,10 @@
 </div>
 
 <div class="flex justify-center gap-4 p-4">
-  <button (click)="confirmDeletion(false)" class="w-1/4 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded">
+  <p-button (click)="confirmDeletion(false)" severity="secondary">
     Cancelar
-  </button>
+  </p-button>
 
-  <button (click)="confirmDeletion(true)"
-    class="w-1/4 bg-gray-900 hover:bg-black text-white rounded-full px-3 py-2 flex items-center justify-center gap-2 font-light">
-    <i class="bi bi-trash-fill"></i>
-    Excluir
-  </button>
+  <p-button [rounded]="true" size="large" (click)="confirmDeletion(true)"><i class="pi pi-trash"></i>Excluir</p-button>
+
 </div>

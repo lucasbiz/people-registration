@@ -19,12 +19,13 @@ export class ModalHelperService {
     private dialogService: DialogService,
  ){};
 
-  registerOrEdit(dialogTitle: string, userData?: User): void {
+  registerOrEdit(dialogTitle: string, userData?: User): Observable<boolean> {
 
     this.dialogRef = this.dialogService.open(RegisterModalComponent, {
       inputValues: {
         modalTitle: dialogTitle,
-        formInputs: userData
+        formInputs: userData,
+        saveButtonText: dialogTitle
       },
       
       width: '50vw',
@@ -34,6 +35,7 @@ export class ModalHelperService {
           '640px': '90vw'
       },
     });
+    return this.dialogRef.onClose as Observable<boolean>;
   }
 
   confirmDeletion(): Observable<boolean> {

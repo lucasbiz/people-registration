@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';

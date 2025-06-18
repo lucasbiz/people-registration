@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-
 
 @Component({
   selector: 'app-confirm-deletion-modal',
-  imports: [],
+  imports: [ButtonModule],
   templateUrl: './confirm-deletion-modal.component.html',
   styleUrl: './confirm-deletion-modal.component.css'
 })

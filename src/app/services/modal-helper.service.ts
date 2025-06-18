@@ -1,24 +1,67 @@
 import { Injectable } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
+import { User } from '../models/user.model';
+import { ConfirmDeletionModalComponent } from '../modals/confirm-deletion-modal/confirm-deletion-modal.component';
+import { Observable } from 'rxjs';
 import { SuccessModalComponent } from '../modals/success-modal/success-modal.component';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class ModalHelperService {
 
-  bsModalRef?: BsModalRef;
+  dialogRef: DynamicDialogRef | undefined;
 
-  constructor( private modalService: BsModalService) { }
+  constructor (
+    private dialogService: DialogService,
+ ){};
 
-  showActionSucess(initialState: object, delayMs: number = 300): void {
-    setTimeout(() => {
-      this.bsModalRef = this.modalService.show(SuccessModalComponent, {
-        initialState,
-        class: 'modal-dialog-centered'
-      });
-    }, delayMs);
+  registerOrEdit(dialogTitle: string, userData?: User): Observable<boolean> {
+
+    this.dialogRef = this.dialogService.open(RegisterModalComponent, {
+      inputValues: {
+        modalTitle: dialogTitle,
+        formInputs: userData,
+        saveButtonText: dialogTitle
+      },
+      
+      width: '50vw',
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+    });
+    return this.dialogRef.onClose as Observable<boolean>;
   }
 
+  confirmDeletion(): Observable<boolean> {
+
+    this.dialogRef = this.dialogService.open(ConfirmDeletionModalComponent, {       
+      width: '50vw',
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+    });
+    return this.dialogRef.onClose as Observable<boolean>;
+  };
+
+  showSuccessMessage(dialogTitle: string): void {
+    this.dialogRef = this.dialogService.open(SuccessModalComponent, {
+      inputValues: {
+        modalTitle: dialogTitle
+      },
+      modal:true,
+      breakpoints: {
+          '960px': '75vw',
+          '640px': '90vw'
+      }
+    });
+  };
 
 }

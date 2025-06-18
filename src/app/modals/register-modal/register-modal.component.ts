@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InputButtonComponent } from '../../components/input-button/input-button.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalHelperService } from '../../services/modal-helper.service';
 import { User, UserForm } from '../../models/user.model';
 import { formatDateDayMonthYear } from '../../utils/date-utils';
+import { ButtonModule } from 'primeng/button';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ModalHelperService } from '../../services/modal-helper.service';
 
 
 @Component({
   selector: 'app-register-modal',
-  imports: [InputButtonComponent, ReactiveFormsModule, NgxMaskDirective],
+  imports: [ReactiveFormsModule, NgxMaskDirective, ButtonModule],
   providers: [provideNgxMask()],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.css'
@@ -19,84 +19,83 @@ import { formatDateDayMonthYear } from '../../utils/date-utils';
 export class RegisterModalComponent implements OnInit{
 
   form: FormGroup;
+  visible: boolean = false;
 
+  showErrors = false;
   @Output() renderUsersCall = new EventEmitter<void>();
-  @Input() userData?: User;
-  @Input() saveButtonText?: string = '';
+  @Input() formInputs?: User;
   @Input() modalTitle?: string = '';
+  @Input() saveButtonText?: string = '';
 
 
-  constructor(public bsModalRef: BsModalRef, private fb: FormBuilder, private usersService: UsersService, private modalHelperService: ModalHelperService) {
+  constructor(
+    public ref: DynamicDialogRef,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private modalHelperService: ModalHelperService
+  ) {
 
     this.form = this.fb.group({
       name: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(3)],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
       email: this.fb.control('', {
         validators: [Validators.required, Validators.email],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
       phone: this.fb.control('', {
         validators: [Validators.required],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
       birthDate: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(8)],
-        updateOn: 'blur'
+        updateOn: 'submit'
       }),
     });
   }
 
   ngOnInit(): void {
-    if (this.userData) {
+    if (this.formInputs) {
       this.form.patchValue({
-        name: this.userData.name,
-        email: this.userData.email,
-        phone: this.userData.phone,
-        birthDate: formatDateDayMonthYear(this.userData.birthDate)
+        name: this.formInputs.name,
+        email: this.formInputs.email,
+        phone: this.formInputs.phone,
+        birthDate: formatDateDayMonthYear(this.formInputs.birthDate)
       });
     }
   }
 
   saveRegister(): void {
 
+    this.showErrors = true;
     if (!this.form.valid) { 
       this.form.markAllAsTouched();
       return;
     };
 
+    const onSuccess = (successMessage: string) => {
+      this.modalHelperService.showSuccessMessage(successMessage);
+      this.closeModal();
+    };
+
     const formData: UserForm = this.form.value;
 
-    if (this.userData){
-      this.usersService.updateUser(this.userData.id, formData).subscribe({
-        next: () => {
-          this.renderUsersCall.emit();
-          this.closeModal();
-          this.showRegisterSucess('Cadastro editado com sucesso!');
+    if (this.formInputs){
+      this.usersService.updateUser(this.formInputs.id, formData).subscribe({
+        next: () => {onSuccess('Cadastro editado com sucesso!');
         },
         error: err => console.error(err)
       });
     } else {
       this.usersService.createUser(formData).subscribe({
-        next: () => {
-          this.renderUsersCall.emit();
-          this.closeModal();
-          this.showRegisterSucess('Cadastro criado com sucesso!');
+        next: () => {onSuccess('Cadastro criado com sucesso!');
         },
         error: err => console.error(err)
       });
-
+      
     }
   }
 
-  showRegisterSucess(successModalTitle: string): void {
-
-    const initialState = {
-      modalTitle: `${successModalTitle}`
-    };
-    this.modalHelperService.showActionSucess(initialState, 500);
-  };
-
-  closeModal = (): void => this.bsModalRef.hide();
+  closeModal = (): void => this.ref.close(true);
 }

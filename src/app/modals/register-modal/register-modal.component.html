@@ -1,40 +1,49 @@
-<div class="modal-header">
-  <h5 class="modal-title">{{ modalTitle }}</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+<div class="pb-2 border-b">
+  <h5 class="text-3xl font-semibold text-gray-900">{{ modalTitle }}</h5>
 </div>
-<div class="modal-body">
 
+<div class="p-6 space-y-4">
   <form [formGroup]="form" (ngSubmit)="saveRegister()">
-    <div class="mb-3">
-      <label class="form-label">Nome</label>
-      <input type="text" formControlName="name" class="form-control" [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched" data-cy="input-nome">
-      <div class="invalid-feedback">Nome é obrigatório e deve ter pelo menos 3 letras.</div>
+    <div class="mb-4">
+      <label class="block mb-2 text-sm font-medium text-gray-900">Nome</label>
+      <input type="text" formControlName="name"
+        class="w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+      @if (form.get('name')?.invalid && (form.get('name')?.touched))
+      {<p class="text-red-500 text-xs">Nome é obrigatório e deve ter pelo menos 3 letras.</p>}
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">E-mail</label>
-      <input type="email" formControlName="email" class="form-control" [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched" data-cy="input-email">
-      <div class="invalid-feedback">E-mail inválido.</div>
+    <div class="mb-4">
+      <label class="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
+      <input type="email" formControlName="email"
+        class="w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+      @if(form.get('email')?.invalid && (form.get('email')?.touched)) 
+      {<p class="text-red-500 text-xs">E-mail inválido.</p>}
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Telefone</label>
-      <input type="text" formControlName="phone" class="form-control" mask="(00) 00000-0000" [class.is-invalid]="form.get('phone')?.invalid && form.get('phone')?.touched" data-cy="input-telefone">
-      <div class="invalid-feedback">Telefone inválido.</div>
+    <div class="mb-4">
+      <label class="block mb-2 text-sm font-medium text-gray-900">Telefone</label>
+      <input type="text" formControlName="phone" mask="(00) 00000-0000"
+        class="w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+        @if(form.get('phone')?.invalid && (form.get('phone')?.touched)) 
+        {<p class="text-red-500 text-xs">Telefone inválido.</p>}
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Data de nascimento</label>
-      <input type="text" formControlName="birthDate" class="form-control" mask="00/00/0000" [class.is-invalid]="form.get('birthDate')?.invalid && form.get('birthDate')?.touched " data-cy="input-data-nascimento">
-      <div class="invalid-feedback">Data de nascimento inválida.</div>
+    <div class="mb-4">
+      <label class="block mb-2 text-sm font-medium text-gray-900">Data de nascimento</label>
+      <input type="text" formControlName="birthDate" mask="00/00/0000"
+      class="w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+        @if(form.get('birthDate')?.invalid && (form.get('birthDate')?.touched)) 
+        {<p class="text-red-500 text-xs">Data de nascimento inválida.</p>}
     </div>
 
-    <div class=" w-75 mx-auto d-flex flex-column">
-      <app-input-button [value]=`${modalTitle}` type="submit"></app-input-button>
+    <p-button type="submit" class="flex justify-center" [rounded]="true" size="large">{{saveButtonText}}<i class="pi pi-arrow-right"></i></p-button>
+  
+    <div class="flex justify-center mt-8">
+      <button type="button" class="text-gray-400 rounded-lg shadow transition" (click)="closeModal()">
+        Cancelar
+      </button>
     </div>
+
   </form>
 </div>
-<button class="w-25 mx-auto btn d-flex flex-column my-3" (click)="closeModal()">Cancelar</button>
-
-
 

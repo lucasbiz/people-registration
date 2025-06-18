@@ -3,12 +3,8 @@ import { UserRowComponent } from '../user-row/user-row.component';
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
-import { ConfirmDeletionModalComponent } from '../../modals/confirm-deletion-modal/confirm-deletion-modal.component';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalHelperService } from '../../services/modal-helper.service';
-import { RegisterModalComponent } from '../../modals/register-modal/register-modal.component';
-import { take } from 'rxjs';
-
+import { filter, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -27,10 +23,7 @@ export class UserListComponent implements OnInit {
     totalPages: 0,
   };
 
-
-  bsModalRef?: BsModalRef;
-
-  constructor(private usersService: UsersService, private modalService: BsModalService, private modalHelperService: ModalHelperService) {}
+  constructor(private usersService: UsersService, private modalHelperService: ModalHelperService) {}
 
   ngOnInit(): void {
     this.renderUsers();
@@ -38,50 +31,29 @@ export class UserListComponent implements OnInit {
 
   onEdit(user: User): void {
 
-    const initialState = {
-        modalTitle: 'Editar cadastro',
-        saveButtonText: 'Salvar alterações',
-        userData: user
-      };
-
-    this.bsModalRef = this.modalService.show(RegisterModalComponent, {
-      initialState,
-      class: 'modal-dialog-centered'
-    });
-
-    this.bsModalRef.content.renderUsersCall.subscribe(() => {
-      this.renderUsers(this.usersData.currentPage);
-    });
-    };
-
-  onDelete(userId: number): void {
-
-    this.bsModalRef = this.modalService.show(ConfirmDeletionModalComponent, {
-      class: 'modal-dialog-centered'
-    });
-
-    this.bsModalRef.content.userDeleted.pipe(take(1)).subscribe(() => {
-      this.usersService.deleteUser(userId).pipe(take(1)).subscribe({
-        next: () => {
-          this.usersData.users = this.usersData.users.filter(u => u.id !== userId);
-          this.usersData.totalCount--;
-          this.showDeletionSuccess();
-        },
-        error: (err) => {
-          console.error(err);
-        }
-      });
+    this.modalHelperService.registerOrEdit('Editar cadastro', user).subscribe((result: boolean)=> {
+      if (result) {
+        this.renderUsers();
+      }
     });
   };
 
-  showDeletionSuccess(): void {
+  onDelete(userId: number): void {
 
-    const initialState = {
-      modalTitle: 'Cadastro excluído com sucesso!'};
+    this.modalHelperService.confirmDeletion().pipe(
+      take(1),
+      filter((confirmed)=> confirmed),
+      switchMap(()=> this.usersService.deleteUser(userId)),
+    )
+    .subscribe({
+      next: () => {
+        this.usersData.users = this.usersData.users.filter((user) => user.id !== userId);
+        this.renderUsers();
+      },
+      error: err => console.log(err)
+    });
+  };
 
-    this.modalHelperService.showActionSucess(initialState);
-
-    };
 
   renderUsers(pageNumber : number = 1): void{
 

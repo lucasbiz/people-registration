@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { InputButtonComponent } from '../input-button/input-button.component';
 import { UserListComponent } from '../user-list/user-list.component';
-
 import { ModalHelperService } from '../../services/modal-helper.service';
-
 
 @Component({
   selector: 'app-people-registration',
@@ -15,12 +13,15 @@ import { ModalHelperService } from '../../services/modal-helper.service';
 
 export class PeopleRegistrationComponent {
 
+  @ViewChild(UserListComponent) userListComponent!: UserListComponent;
+
   constructor(
-    private modalHelperService: ModalHelperService
-  ) {}
+    private modalHelperService: ModalHelperService) {}
 
   newRegister():void {
-    this.modalHelperService.registerOrEdit('Criar novo cadastro');
+    this.modalHelperService.registerOrEdit('Criar novo cadastro').subscribe({
+      next: () => {this.userListComponent.renderUsers();}
+    });
   }
 }
 

@@ -55,7 +55,7 @@ export class UserListComponent implements OnInit {
   };
 
 
-  renderUsers(pageNumber : number = 1): void{
+  public renderUsers(pageNumber : number = 1): void{
 
     this.usersService.getUsers(pageNumber).subscribe({
       next: (data: UsersData) => {

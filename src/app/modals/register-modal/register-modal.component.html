@@ -36,13 +36,9 @@
         {<p class="text-red-500 text-xs">Data de nascimento inválida.</p>}
     </div>
 
-    <p-button type="submit" class="flex justify-center" [rounded]="true" size="large">{{saveButtonText}}<i class="pi pi-arrow-right"></i></p-button>
+    <p-button type="submit" class="flex justify-center mt-5" [rounded]="true" size="large">{{saveButtonText}}<i class="pi pi-arrow-right"></i></p-button>
   
-    <div class="flex justify-center mt-8">
-      <button type="button" class="text-gray-400 rounded-lg shadow transition" (click)="closeModal()">
-        Cancelar
-      </button>
-    </div>
+    <p-button label="Cancelar" severity="secondary" (click)="closeModal()" class="flex justify-center mt-5"></p-button>
 
   </form>
 </div>

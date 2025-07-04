@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
 import { User } from '../models/user.model';
 import { ConfirmDeletionModalComponent } from '../modals/confirm-deletion-modal/confirm-deletion-modal.component';
@@ -19,49 +19,45 @@ export class ModalHelperService {
     private dialogService: DialogService,
  ){};
 
-  registerOrEdit(dialogTitle: string, userData?: User): Observable<boolean> {
+ private openModal<T>(component: any, config?: DynamicDialogConfig): DynamicDialogRef<T>{
 
-    this.dialogRef = this.dialogService.open(RegisterModalComponent, {
-      inputValues: {
-        modalTitle: dialogTitle,
-        formInputs: userData,
-        saveButtonText: dialogTitle
-      },
-      
+  const defaultConfig: DynamicDialogConfig = {       
       width: '50vw',
       modal:true,
       breakpoints: {
           '960px': '75vw',
           '640px': '90vw'
       },
-    });
+    };
+    return this.dialogService.open(component, {...defaultConfig, ...config});
+  }
+
+  registerOrEdit(dialogTitle: string, userData?: User): Observable<boolean> {
+
+    this.dialogRef = this.openModal(RegisterModalComponent,
+      {inputValues: {
+        modalTitle: dialogTitle,
+        formInputs: userData,
+        saveButtonText: dialogTitle
+      }}
+    );
+
     return this.dialogRef.onClose as Observable<boolean>;
   }
 
   confirmDeletion(): Observable<boolean> {
 
-    this.dialogRef = this.dialogService.open(ConfirmDeletionModalComponent, {       
-      width: '50vw',
-      modal:true,
-      breakpoints: {
-          '960px': '75vw',
-          '640px': '90vw'
-      },
-    });
+    this.dialogRef = this.openModal(ConfirmDeletionModalComponent);
+
     return this.dialogRef.onClose as Observable<boolean>;
   };
 
   showSuccessMessage(dialogTitle: string): void {
-    this.dialogRef = this.dialogService.open(SuccessModalComponent, {
+    
+    this.dialogRef = this.openModal(SuccessModalComponent, {
       inputValues: {
         modalTitle: dialogTitle
-      },
-      modal:true,
-      breakpoints: {
-          '960px': '75vw',
-          '640px': '90vw'
-      }
-    });
+      }});
   };
 
 }

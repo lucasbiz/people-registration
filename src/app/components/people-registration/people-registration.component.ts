@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { InputButtonComponent } from '../input-button/input-button.component';
 import { UserListComponent } from '../user-list/user-list.component';
 import { ModalHelperService } from '../../services/modal-helper.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-people-registration',
-  imports: [InputButtonComponent, UserListComponent],
+  imports: [ButtonModule, UserListComponent],
   templateUrl: './people-registration.component.html',
   styleUrl: './people-registration.component.css'
 })

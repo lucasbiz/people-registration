@@ -2,7 +2,7 @@
 <div class="flex flex-col items-center space-y-9 mt-32">
   <div class="flex flex-row items-center space-x-20">
     <h1 class="text-white text-5xl font-semibold">Cadastro de pessoas</h1>
-    <app-input-button [value]="'Novo Cadastro'" (click)="newRegister()"></app-input-button>
+    <p-button class="flex justify-center" [rounded]="true" size="large" (click)="newRegister()" class="flex justify-center mt-5">Novo Cadastro<i class="pi pi-arrow-right"></i></p-button>
   </div>
   <app-user-list></app-user-list>
 </div>

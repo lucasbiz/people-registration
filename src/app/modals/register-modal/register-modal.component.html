@@ -2,7 +2,7 @@
   <h5 class="text-3xl font-semibold text-gray-900">{{ modalTitle }}</h5>
 </div>
 
-<div class="p-6 space-y-4">
+<div class="pt-2 space-y-4">
   <form [formGroup]="form" (ngSubmit)="saveRegister()">
     <div class="mb-4">
       <label class="block mb-2 text-sm font-medium text-gray-900">Nome</label>
@@ -38,7 +38,7 @@
 
     <p-button type="submit" class="flex justify-center mt-5" [rounded]="true" size="large">{{saveButtonText}}<i class="pi pi-arrow-right"></i></p-button>
   
-    <p-button label="Cancelar" severity="secondary" (click)="closeModal()" class="flex justify-center mt-5"></p-button>
+    <p-button severity="secondary" (click)="closeModal()" [rounded]="true" class="flex justify-center mt-5">Cancelar</p-button>
 
   </form>
 </div>

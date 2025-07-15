@@ -10,7 +10,6 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './people-registration.component.css'
 })
 
-
 export class PeopleRegistrationComponent {
 
   @ViewChild(UserListComponent) userListComponent!: UserListComponent;
@@ -20,8 +19,7 @@ export class PeopleRegistrationComponent {
 
   newRegister():void {
     this.modalHelperService.registerOrEdit('Criar novo cadastro').subscribe({
-      next: () => {this.userListComponent.renderUsers();}
+      next: () => {this.userListComponent.renderUsers(this.userListComponent.usersData.currentPage);}
     });
   }
 }
-

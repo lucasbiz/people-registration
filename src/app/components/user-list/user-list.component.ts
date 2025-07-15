@@ -33,7 +33,7 @@ export class UserListComponent implements OnInit {
 
     this.modalHelperService.registerOrEdit('Editar cadastro', user).subscribe((result: boolean)=> {
       if (result) {
-        this.renderUsers();
+        this.renderUsers(this.usersData.currentPage);
       }
     });
   };
@@ -48,7 +48,7 @@ export class UserListComponent implements OnInit {
     .subscribe({
       next: () => {
         this.usersData.users = this.usersData.users.filter((user) => user.id !== userId);
-        this.renderUsers();
+        this.modalHelperService.showSuccessMessage('Cadastro excluído com sucesso!');
       },
       error: err => console.log(err)
     });

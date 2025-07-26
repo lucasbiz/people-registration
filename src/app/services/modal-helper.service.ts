@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
 import { User } from '../models/user.model';
@@ -19,7 +19,7 @@ export class ModalHelperService {
     private dialogService: DialogService,
  ){};
 
- private openModal<T>(component: any, config?: DynamicDialogConfig): DynamicDialogRef<T>{
+ private openModal<T>(component: Type<T>, config?: DynamicDialogConfig): DynamicDialogRef<T>{
 
   const defaultConfig: DynamicDialogConfig = {       
       width: '50vw',

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
 import { UserRowComponent } from '../user-row/user-row.component';
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
 import { ModalHelperService } from '../../services/modal-helper.service';
-import { filter, switchMap, take } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-list',
@@ -23,6 +24,8 @@ export class UserListComponent implements OnInit {
     totalPages: 0,
   };
 
+  private destroyRef: DestroyRef = inject(DestroyRef);
+
   constructor(private usersService: UsersService, private modalHelperService: ModalHelperService) {}
 
   ngOnInit(): void {
@@ -31,7 +34,7 @@ export class UserListComponent implements OnInit {
 
   onEdit(user: User): void {
 
-    this.modalHelperService.registerOrEdit('Editar cadastro', user).subscribe((result: boolean)=> {
+    this.modalHelperService.registerOrEdit('Editar cadastro', user).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result: boolean)=> {
       if (result) {
         this.renderUsers(this.usersData.currentPage);
       }
@@ -40,8 +43,7 @@ export class UserListComponent implements OnInit {
 
   onDelete(userId: number): void {
 
-    this.modalHelperService.confirmDeletion().pipe(
-      take(1),
+    this.modalHelperService.confirmDeletion().pipe(takeUntilDestroyed(this.destroyRef),
       filter((confirmed)=> confirmed),
       switchMap(()=> this.usersService.deleteUser(userId)),
     )
@@ -57,7 +59,7 @@ export class UserListComponent implements OnInit {
 
   public renderUsers(pageNumber : number = 1): void{
 
-    this.usersService.getUsers(pageNumber).subscribe({
+    this.usersService.getUsers(pageNumber).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data: UsersData) => {
         this.usersData = data;
       },

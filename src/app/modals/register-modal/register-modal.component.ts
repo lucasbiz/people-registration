@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
@@ -7,7 +7,8 @@ import { formatDateDayMonthYear } from '../../utils/date-utils';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalHelperService } from '../../services/modal-helper.service';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register-modal',
@@ -27,6 +28,7 @@ export class RegisterModalComponent implements OnInit{
   @Input() modalTitle?: string = '';
   @Input() saveButtonText?: string = '';
 
+  private destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     public ref: DynamicDialogRef,
@@ -74,27 +76,27 @@ export class RegisterModalComponent implements OnInit{
       return;
     };
 
+    const formData: UserForm = this.form.value;
+
+    if (this.formInputs){
+      this.submitRequest(this.usersService.updateUser(this.formInputs.id, formData), 'Cadastro editado com sucesso!');
+    } else {
+      this.submitRequest(this.usersService.createUser(formData), 'Cadastro criado com sucesso!');
+    }
+  }
+
+  submitRequest<T>(request$: Observable<T>, successMessage: string): void {
+
     const onSuccess = (successMessage: string) => {
       this.modalHelperService.showSuccessMessage(successMessage);
       this.closeModal();
     };
+    request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: () => {onSuccess(successMessage);
+      },
+      error: err => console.error(err)
+    });
 
-    const formData: UserForm = this.form.value;
-
-    if (this.formInputs){
-      this.usersService.updateUser(this.formInputs.id, formData).subscribe({
-        next: () => {onSuccess('Cadastro editado com sucesso!');
-        },
-        error: err => console.error(err)
-      });
-    } else {
-      this.usersService.createUser(formData).subscribe({
-        next: () => {onSuccess('Cadastro criado com sucesso!');
-        },
-        error: err => console.error(err)
-      });
-      
-    }
   }
 
   closeModal = (): void => this.ref.close(true);

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { UserListComponent } from '../user-list/user-list.component';
 import { ModalHelperService } from '../../services/modal-helper.service';
 import { ButtonModule } from 'primeng/button';

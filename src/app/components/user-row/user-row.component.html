@@ -2,7 +2,7 @@
   <div class="content-center p-6">{{ user.name }}</div>
   <div class="content-center break-all">{{ user.email }}</div>
   <div class="content-center break-all">{{ user.phone }}</div>
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center mr-2">
     {{ user.birthDate | date : "dd/MM/yyyy" }}
     <div class="flex gap-2">
       <p-button icon="pi pi-pencil" (click)="onEdit()" />

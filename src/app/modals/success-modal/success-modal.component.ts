@@ -7,16 +7,14 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-success-modal',
   imports: [ButtonModule],
   templateUrl: './success-modal.component.html',
-  styleUrl: './success-modal.component.css'
+  styleUrl: './success-modal.component.css',
 })
 export class SuccessModalComponent {
+  @Input() modalTitle: string = '';
 
-    @Input() modalTitle: string = '';
+  constructor(public dynamicDialogRef: DynamicDialogRef) {}
 
-    constructor(public dynamicDialogRef: DynamicDialogRef) {};
-
-    closeModal(): void {
-      this.dynamicDialogRef.close();
-    };
-
+  closeModal(): void {
+    this.dynamicDialogRef.close();
+  }
 }

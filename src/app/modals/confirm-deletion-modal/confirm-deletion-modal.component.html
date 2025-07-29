@@ -3,14 +3,22 @@
 </div>
 
 <div class="p-4">
-  <p>O cadastro será excluído definitivamente. Você tem certeza que deseja continuar?</p>
+  <p>
+    O cadastro será excluído definitivamente. Você tem certeza que deseja
+    continuar?
+  </p>
 </div>
 
 <div class="flex justify-center gap-4 p-4">
-  <p-button (click)="confirmDeletion(false)" severity="secondary" [rounded]="true">
+  <p-button
+    (click)="confirmDeletion(false)"
+    severity="secondary"
+    [rounded]="true"
+  >
     Cancelar
   </p-button>
 
-  <p-button [rounded]="true" size="large" (click)="confirmDeletion(true)"><i class="pi pi-trash"></i>Excluir</p-button>
-
+  <p-button [rounded]="true" size="large" (click)="confirmDeletion(true)"
+    ><i class="pi pi-trash"></i>Excluir</p-button
+  >
 </div>

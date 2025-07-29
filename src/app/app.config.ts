@@ -8,23 +8,23 @@ import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
-    DialogService, 
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    DialogService,
     DynamicDialogRef,
     provideHttpClient(),
     provideAnimationsAsync(),
     MessageService,
     providePrimeNG({
       theme: {
-          preset: MyPreset,
-          options: {
-              darkModeSelector: false,
-              cssLayer: {
-                  name: 'primeng',
-                  order: 'tailwind-base, primeng, tailwind-utilities'
-              }
-          }
-      }
-  })
-  ]
+        preset: MyPreset,
+        options: {
+          darkModeSelector: false,
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base, primeng, tailwind-utilities',
+          },
+        },
+      },
+    }),
+  ],
 };

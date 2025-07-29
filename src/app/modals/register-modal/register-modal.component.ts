@@ -109,8 +109,7 @@ export class RegisterModalComponent implements OnInit {
       this.closeModal();
     };
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: () =>
-        onSuccess(successMessage),
+      next: () => onSuccess(successMessage),
       error: () =>
         this.toastService.showError('Erro!', 'Erro ao criar/editar usuário'),
     });

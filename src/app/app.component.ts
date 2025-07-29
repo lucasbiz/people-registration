@@ -7,7 +7,6 @@ import { ButtonModule } from 'primeng/button';
   imports: [HomeComponent, ButtonModule],
   template: '<app-home></app-home>',
 })
-
 export class AppComponent {
   title = 'people-registration';
 }

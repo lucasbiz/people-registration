@@ -4,6 +4,7 @@ import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './mypreset';
 import { provideHttpClient } from '@angular/common/http';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     DynamicDialogRef,
     provideHttpClient(),
     provideAnimationsAsync(),
+    MessageService,
     providePrimeNG({
       theme: {
           preset: MyPreset,

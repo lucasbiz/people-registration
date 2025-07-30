@@ -1,6 +1,6 @@
 <div class="user-row grid grid-cols-4 gap-3 bg-white p-3">
-  <div class="content-center p-6">{{ user.name }}</div>
-  <div class="content-center break-all">{{ user.email }}</div>
+  <div class="content-center p-6 max-w-[200px]">{{ user.name }}</div>
+  <div class="content-center break-all max-w-[200px]">{{ user.email }}</div>
   <div class="content-center break-all">{{ user.phone }}</div>
   <div class="flex justify-between items-center mr-2 gap-2">
     {{ user.birthDate | date : "dd/MM/yyyy" }}

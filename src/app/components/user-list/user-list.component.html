@@ -1,38 +1,44 @@
-<div class="bg-white mb-10">
-  <div class="grid grid-cols-4 font-bold bg-gray-900 text-white p-3">
-    <div class="pl-6 col-2">Nome</div>
-    <div>E-mail</div>
-    <div>Telefone</div>
-    <div>Data de nascimento</div>
+<div class="bg-white">
+  <div class="overflow-x-auto">
+    <div class="min-w-max">
+      <div
+        class="grid grid-cols-4 font-bold bg-gray-900 text-white p-3 whitespace-nowrap"
+      >
+        <div class="pl-6">Nome</div>
+        <div>E-mail</div>
+        <div>Telefone</div>
+        <div>Data de nascimento</div>
+      </div>
+
+      <div class="overflow-y-scroll max-h-[50vh]">
+        <ng-container *ngFor="let user of usersData.users">
+          <app-user-row
+            [user]="user"
+            (edit)="onEdit($event)"
+            (delete)="onDelete($event)"
+          ></app-user-row>
+        </ng-container>
+      </div>
+    </div>
   </div>
 
-  <ng-container *ngFor="let user of usersData.users">
-    <app-user-row
-      [user]="user"
-      (edit)="onEdit($event)"
-      (delete)="onDelete($event)"
-    ></app-user-row>
-  </ng-container>
-
-  <div class="flex items-center justify-center p-3 space-x-4">
-    <button
-      class="px-4 py-2 border border-gray-800 rounded disabled:opacity-50"
+  <div class="flex items-center p-6 space-x-4 bg-white">
+    <p-button
       (click)="renderUsers(usersData.currentPage - 1)"
       [disabled]="usersData.currentPage === 1"
     >
-      Anterior
-    </button>
-    <span
-      >Página {{ usersData.currentPage }} de {{ usersData.totalPages }}</span
-    >
-    <button
-      class="px-4 py-2 border border-gray-800 rounded disabled:opacity-50"
+      <i class="pi pi-angle-left"></i>
+    </p-button>
+    <span>
+      Página {{ usersData.currentPage }} de {{ usersData.totalPages }}
+    </span>
+    <p-button
       (click)="renderUsers(usersData.currentPage + 1)"
       [disabled]="
         usersData.currentPage * usersData.limit >= usersData.totalCount
       "
     >
-      Próxima
-    </button>
+      <i class="pi pi-angle-right"></i>
+    </p-button>
   </div>
 </div>

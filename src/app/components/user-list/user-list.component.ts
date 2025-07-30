@@ -64,7 +64,7 @@ export class UserListComponent implements OnInit {
             'Cadastro excluído com sucesso!'
           );
         },
-        error: (err) => console.log(err),
+        error: () => this.toastService.showError('Erro!', 'Erro ao excluir usuário'),
       });
   }
 

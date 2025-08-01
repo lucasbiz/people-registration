@@ -30,21 +30,25 @@ People Registration é uma aplicação Angular 19 para gerenciamento de usuário
 ## Instalação e Configuração
 
 1. Clone o repositório:
+
    ```bash
    git clone https://github.com/seu-usuario/people-registration.git
    ```
 
 2. Navegue até o diretório do projeto:
+
    ```bash
    cd people-registration
    ```
 
 3. Instale as dependências:
+
    ```bash
    npm install
    ```
 
 4. Execute o servidor de desenvolvimento:
+
    ```bash
    ng serve
    ```
@@ -59,7 +63,3 @@ People Registration é uma aplicação Angular 19 para gerenciamento de usuário
 A estrutura do projeto segue as melhores práticas do Angular, com uma clara separação de componentes, serviços e modelos:
 
 ![Captura de Tela 2025-06-18 às 19 00 10](https://github.com/user-attachments/assets/2e4f7ebc-00f8-4b52-a515-77d6ce65b443)
-
-
-
-

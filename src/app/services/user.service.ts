@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   RawUsersResponse,
@@ -15,9 +15,9 @@ import { payloadHelper } from '../helpers/user.helper';
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
-  getUsers(page: number = 1, limit: number = 10): Observable<UsersData> {
+  getUsers(page = 1, limit = 10): Observable<UsersData> {
     const params = { page: page.toString(), limit: limit.toString() };
 
     return this.http.get<RawUsersResponse>(`${baseApiUrl}`, { params }).pipe(
@@ -29,7 +29,7 @@ export class UsersService {
           totalCount: response.count,
           totalPages: Math.ceil(response.count / response.limit),
         };
-      })
+      }),
     );
   }
 
@@ -44,7 +44,7 @@ export class UsersService {
   updateUser(id: number, userData: UserForm): Observable<User> {
     return this.http.patch<User>(
       `${baseApiUrl}/${id}`,
-      payloadHelper(userData)
+      payloadHelper(userData),
     );
   }
 }

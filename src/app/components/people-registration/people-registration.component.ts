@@ -18,7 +18,7 @@ export class PeopleRegistrationComponent {
 
   constructor(
     private modalHelperService: ModalHelperService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   newRegister(): void {
@@ -28,7 +28,7 @@ export class PeopleRegistrationComponent {
       .subscribe({
         next: () => {
           this.userListComponent.renderUsers(
-            this.userListComponent.usersData.currentPage
+            this.userListComponent.usersData.currentPage,
           );
         },
         error: () => {

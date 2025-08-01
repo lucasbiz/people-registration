@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './success-modal.component.css',
 })
 export class SuccessModalComponent {
-  @Input() modalTitle: string = '';
+  @Input() modalTitle = '';
 
   constructor(public dynamicDialogRef: DynamicDialogRef) {}
 

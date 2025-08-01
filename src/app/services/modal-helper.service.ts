@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import {
   DialogService,
   DynamicDialogConfig,
@@ -15,12 +15,11 @@ import { SuccessModalComponent } from '../modals/success-modal/success-modal.com
 })
 export class ModalHelperService {
   dialogRef: DynamicDialogRef | undefined;
-
-  constructor(private dialogService: DialogService) {}
+  private readonly dialogService: DialogService = inject(DialogService);
 
   private openModal<T>(
     component: Type<T>,
-    config?: DynamicDialogConfig
+    config?: DynamicDialogConfig,
   ): DynamicDialogRef<T> {
     const defaultConfig: DynamicDialogConfig = {
       width: '50vw',

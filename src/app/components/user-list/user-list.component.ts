@@ -29,7 +29,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private modalHelperService: ModalHelperService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -53,22 +53,23 @@ export class UserListComponent implements OnInit {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         filter((confirmed) => confirmed),
-        switchMap(() => this.usersService.deleteUser(userId))
+        switchMap(() => this.usersService.deleteUser(userId)),
       )
       .subscribe({
         next: () => {
           this.usersData.users = this.usersData.users.filter(
-            (user) => user.id !== userId
+            (user) => user.id !== userId,
           );
           this.modalHelperService.showSuccessMessage(
-            'Cadastro excluído com sucesso!'
+            'Cadastro excluído com sucesso!',
           );
         },
-        error: () => this.toastService.showError('Erro!', 'Erro ao excluir usuário'),
+        error: () =>
+          this.toastService.showError('Erro!', 'Erro ao excluir usuário'),
       });
   }
 
-  public renderUsers(pageNumber: number = 1): void {
+  public renderUsers(pageNumber = 1): void {
     this.usersService
       .getUsers(pageNumber)
       .pipe(takeUntilDestroyed(this.destroyRef))

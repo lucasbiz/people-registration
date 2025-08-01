@@ -33,7 +33,7 @@ import { ToastService } from '../../services/toast.service';
 })
 export class RegisterModalComponent implements OnInit {
   form: FormGroup;
-  visible: boolean = false;
+  visible = false;
 
   showErrors = false;
   @Output() renderUsersCall = new EventEmitter<void>();
@@ -48,7 +48,7 @@ export class RegisterModalComponent implements OnInit {
     private fb: FormBuilder,
     private usersService: UsersService,
     private modalHelperService: ModalHelperService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
     this.form = this.fb.group({
       name: this.fb.control('', {
@@ -93,12 +93,12 @@ export class RegisterModalComponent implements OnInit {
     if (this.formInputs) {
       this.submitRequest(
         this.usersService.updateUser(this.formInputs.id, formData),
-        'Cadastro editado com sucesso!'
+        'Cadastro editado com sucesso!',
       );
     } else {
       this.submitRequest(
         this.usersService.createUser(formData),
-        'Cadastro criado com sucesso!'
+        'Cadastro criado com sucesso!',
       );
     }
   }

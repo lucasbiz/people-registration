@@ -3,7 +3,7 @@
   <div class="content-center break-all max-w-[200px]">{{ user.email }}</div>
   <div class="content-center break-all">{{ user.phone }}</div>
   <div class="flex justify-between items-center mr-2 gap-2">
-    {{ user.birthDate | date : "dd/MM/yyyy" }}
+    {{ user.birthDate | date: "dd/MM/yyyy" }}
     <div class="flex gap-2">
       <p-button icon="pi pi-pencil" (click)="onEdit()" />
       <p-button icon="pi pi-trash" aria-label="Save" (click)="onDelete()" />

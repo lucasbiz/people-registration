@@ -14,12 +14,9 @@ import { ToastService } from '../../services/toast.service';
 export class PeopleRegistrationComponent {
   @ViewChild(UserListComponent) userListComponent!: UserListComponent;
 
-  private destroyRef: DestroyRef = inject(DestroyRef);
-
-  constructor(
-    private modalHelperService: ModalHelperService,
-    private toastService: ToastService,
-  ) {}
+  private destroyRef = inject(DestroyRef);
+  private readonly modalHelperService = inject(ModalHelperService);
+  private readonly toastService = inject(ToastService);
 
   newRegister(): void {
     this.modalHelperService

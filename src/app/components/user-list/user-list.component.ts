@@ -24,13 +24,10 @@ export class UserListComponent implements OnInit {
     totalPages: 0,
   };
 
-  private destroyRef: DestroyRef = inject(DestroyRef);
-
-  constructor(
-    private usersService: UsersService,
-    private modalHelperService: ModalHelperService,
-    private toastService: ToastService,
-  ) {}
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly usersService = inject(UsersService);
+  private readonly modalHelperService = inject(ModalHelperService);
+  private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.renderUsers();

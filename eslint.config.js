@@ -39,5 +39,14 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+    ignores: [
+      ".angular",
+      "node_modules",
+      "dist",
+      "tmp",
+      "package.json",
+      "package-lock.json",
+      "**/index.html",
+    ],
+  },
 );

@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
 
@@ -12,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 export class SuccessModalComponent {
   @Input() modalTitle = '';
 
-  constructor(public dynamicDialogRef: DynamicDialogRef) {}
+  private readonly dynamicDialogRef = inject(DynamicDialogRef);
 
   closeModal(): void {
     this.dynamicDialogRef.close();

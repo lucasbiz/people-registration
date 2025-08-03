@@ -22,7 +22,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalHelperService } from '../../services/modal-helper.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { ToastService } from '../../services/toast.service';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'app-register-modal',
@@ -43,13 +43,13 @@ export class RegisterModalComponent implements OnInit {
 
   private destroyRef: DestroyRef = inject(DestroyRef);
 
-  constructor(
-    public ref: DynamicDialogRef,
-    private fb: FormBuilder,
-    private usersService: UsersService,
-    private modalHelperService: ModalHelperService,
-    private toastService: ToastService,
-  ) {
+  private readonly ref = inject(DynamicDialogRef);
+  private readonly fb = inject(FormBuilder);
+  private readonly usersService = inject(UsersService);
+  private readonly modalHelperService = inject(ModalHelperService);
+  private readonly toastService = inject(ToastService);
+
+  constructor() {
     this.form = this.fb.group({
       name: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(3)],

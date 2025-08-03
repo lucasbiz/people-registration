@@ -47,6 +47,7 @@ module.exports = tseslint.config(
       "package.json",
       "package-lock.json",
       "**/index.html",
+      ".husky"
     ],
   },
 );

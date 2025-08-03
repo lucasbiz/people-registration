@@ -23,19 +23,30 @@ import { ModalHelperService } from '../../services/modal-helper.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { ToastService } from '@services/toast.service';
+import { FluidModule } from 'primeng/fluid';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-register-modal',
-  imports: [ReactiveFormsModule, NgxMaskDirective, ButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    ButtonModule,
+    FluidModule,
+    DatePickerModule,
+    InputTextModule,
+    MessageModule,
+  ],
   providers: [provideNgxMask()],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.css',
 })
 export class RegisterModalComponent implements OnInit {
   form: FormGroup;
-  visible = false;
+  formSubmitted = false;
 
-  showErrors = false;
   @Output() renderUsersCall = new EventEmitter<void>();
   @Input() formInputs?: User;
   @Input() modalTitle?: string = '';
@@ -82,7 +93,6 @@ export class RegisterModalComponent implements OnInit {
   }
 
   saveRegister(): void {
-    this.showErrors = true;
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;

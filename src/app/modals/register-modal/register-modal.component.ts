@@ -99,6 +99,7 @@ export class RegisterModalComponent implements OnInit {
     }
 
     const formData: UserForm = this.form.value;
+    console.log(formData.birthDate);
 
     if (this.formInputs) {
       this.submitRequest(

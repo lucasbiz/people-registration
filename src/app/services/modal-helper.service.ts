@@ -22,11 +22,11 @@ export class ModalHelperService {
     config?: DynamicDialogConfig,
   ): DynamicDialogRef<T> {
     const defaultConfig: DynamicDialogConfig = {
-      width: '50vw',
+      width: '40vw',
       modal: true,
       breakpoints: {
-        '960px': '75vw',
-        '640px': '90vw',
+        '960px': '60vw',
+        '640px': '80vw',
       },
     };
     return this.dialogService.open(component, { ...defaultConfig, ...config });

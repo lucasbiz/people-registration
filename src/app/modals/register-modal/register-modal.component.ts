@@ -27,6 +27,8 @@ import { FluidModule } from 'primeng/fluid';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { PopoverModule } from 'primeng/popover';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
   selector: 'app-register-modal',
@@ -38,6 +40,8 @@ import { MessageModule } from 'primeng/message';
     DatePickerModule,
     InputTextModule,
     MessageModule,
+    PopoverModule,
+    InputMaskModule,
   ],
   providers: [provideNgxMask()],
   templateUrl: './register-modal.component.html',
@@ -46,6 +50,7 @@ import { MessageModule } from 'primeng/message';
 export class RegisterModalComponent implements OnInit {
   form: FormGroup;
   formSubmitted = false;
+  value: string;
 
   @Output() renderUsersCall = new EventEmitter<void>();
   @Input() formInputs?: User;

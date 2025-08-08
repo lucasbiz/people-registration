@@ -64,21 +64,35 @@
         class="block mb-2 text-sm font-medium text-gray-900"
         >Data de nascimento</label
       >
-      <p-datepicker
+      <p-inputmask
+        name="birthdate-input"
         id="birthdate-input"
-        appendTo="body"
-        [showIcon]="true"
-        [showOnFocus]="false"
-        iconDisplay="input"
-        dateFormat="dd/mm/yy"
-        formControlName="birthDate"
-        placeholder="00/00/0000"
-        panelStyleClass="customized-datepicker"
-        fluid="true"
-      ></p-datepicker>
+        mask="99/99/9999"
+        aria-describedby="username-help"
+        (onFocus)="birthdatePopover.show($event)"
+        [(ngModel)]="value"
+      ></p-inputmask>
       @if (form.get("birthDate")?.invalid && form.get("birthDate")?.touched) {
-        <p class="text-red-500 text-xs">Data de nascimento inválida.</p>
+        <p-message
+          class="text-xs"
+          severity="error"
+          size="small"
+          variant="simple"
+          >Data de nascimento inválida.</p-message
+        >
       }
+
+      <p-popover #birthdatePopover>
+        <p-datepicker
+          appendTo="p-inputmask"
+          dateFormat="dd/mm/yy"
+          formControlName="birthDate"
+          placeholder="00/00/0000"
+          panelStyleClass="customized-datepicker"
+          fluid="true"
+          [inline]="true"
+        ></p-datepicker>
+      </p-popover>
     </div>
 
     <p-button

@@ -10,13 +10,12 @@ import {
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { UsersService } from '../../services/user.service';
 import { User, UserForm } from '../../models/user.model';
-import { formatDateDayMonthYear } from '../../utils/date-utils';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalHelperService } from '../../services/modal-helper.service';
@@ -29,12 +28,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PopoverModule } from 'primeng/popover';
 import { InputMaskModule } from 'primeng/inputmask';
+import { formatDateDayMonthYear } from '../../utils/date-utils';
 
 @Component({
   selector: 'app-register-modal',
   imports: [
     ReactiveFormsModule,
-    NgxMaskDirective,
     ButtonModule,
     FluidModule,
     DatePickerModule,
@@ -42,15 +41,14 @@ import { InputMaskModule } from 'primeng/inputmask';
     MessageModule,
     PopoverModule,
     InputMaskModule,
+    FormsModule,
   ],
-  providers: [provideNgxMask()],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.css',
 })
 export class RegisterModalComponent implements OnInit {
   form: FormGroup;
   formSubmitted = false;
-  value: string;
 
   @Output() renderUsersCall = new EventEmitter<void>();
   @Input() formInputs?: User;
@@ -131,4 +129,22 @@ export class RegisterModalComponent implements OnInit {
   }
 
   closeModal = (): void => this.ref.close(true);
+
+  onSelectBirthDate(date: Date): void {
+    this.form
+      .get('birthDate')
+      ?.setValue(formatDateDayMonthYear(date.toISOString()));
+  }
+  get name() {
+    return this.form.get('name');
+  }
+  get email() {
+    return this.form.get('email');
+  }
+  get phone() {
+    return this.form.get('phone');
+  }
+  get birthDate() {
+    return this.form.get('birthDate');
+  }
 }

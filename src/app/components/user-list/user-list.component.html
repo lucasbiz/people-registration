@@ -22,23 +22,12 @@
     </div>
   </div>
 
-  <div class="flex items-center p-6 space-x-4 bg-white">
-    <p-button
-      (click)="renderUsers(usersData.currentPage - 1)"
-      [disabled]="usersData.currentPage === 1"
-    >
-      <i class="pi pi-angle-left"></i>
-    </p-button>
-    <span>
-      Página {{ usersData.currentPage }} de {{ usersData.totalPages }}
-    </span>
-    <p-button
-      (click)="renderUsers(usersData.currentPage + 1)"
-      [disabled]="
-        usersData.currentPage * usersData.limit >= usersData.totalCount
-      "
-    >
-      <i class="pi pi-angle-right"></i>
-    </p-button>
+  <div class="flex justify-center p-2 space-x-4 bg-white">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [rows]="usersData.limit"
+      [totalRecords]="usersData.totalCount"
+      [rowsPerPageOptions]="[10, 20, 30]"
+    />
   </div>
 </div>

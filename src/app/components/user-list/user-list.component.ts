@@ -7,11 +7,11 @@ import { ModalHelperService } from '../../services/modal-helper.service';
 import { filter, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '../../services/toast.service';
-import { Button } from 'primeng/button';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-user-list',
-  imports: [UserRowComponent, CommonModule, Button],
+  imports: [UserRowComponent, CommonModule, PaginatorModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css',
 })
@@ -30,7 +30,23 @@ export class UserListComponent implements OnInit {
   private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {
-    this.renderUsers();
+    this.onPageChange({ page: 0 });
+  }
+
+  onCreate() {
+    this.modalHelperService
+      .registerOrEdit('Criar novo cadastro')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.onPageChange({
+            page: this.usersData.currentPage - 1,
+          });
+        },
+        error: () => {
+          this.toastService.showError('Erro!', 'Erro ao criar novo usuário');
+        },
+      });
   }
 
   onEdit(user: User): void {
@@ -39,7 +55,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result: boolean) => {
         if (result) {
-          this.renderUsers(this.usersData.currentPage);
+          this.onPageChange({ page: this.usersData.currentPage });
         }
       });
   }
@@ -57,6 +73,11 @@ export class UserListComponent implements OnInit {
           this.usersData.users = this.usersData.users.filter(
             (user) => user.id !== userId,
           );
+          if (this.usersData.users.length === 0) {
+            this.onPageChange({ page: this.usersData.currentPage - 2 });
+          } else {
+            this.onPageChange({ page: this.usersData.currentPage - 1 });
+          }
           this.modalHelperService.showSuccessMessage(
             'Cadastro excluído com sucesso!',
           );
@@ -66,9 +87,9 @@ export class UserListComponent implements OnInit {
       });
   }
 
-  public renderUsers(pageNumber = 1): void {
+  onPageChange(event: PaginatorState) {
     this.usersService
-      .getUsers(pageNumber)
+      .getUsers(event.page ?? 1, event.rows ?? 10)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data: UsersData) => {

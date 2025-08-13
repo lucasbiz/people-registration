@@ -17,8 +17,8 @@ import { payloadHelper } from '../helpers/user.helper';
 export class UsersService {
   private readonly http = inject(HttpClient);
 
-  getUsers(page = 1, limit = 10): Observable<UsersData> {
-    const params = { page: page.toString(), limit: limit.toString() };
+  getUsers(page: number, limit: number): Observable<UsersData> {
+    const params = { page: (page + 1).toString(), limit: limit.toString() };
 
     return this.http.get<RawUsersResponse>(`${baseApiUrl}`, { params }).pipe(
       map((response) => {

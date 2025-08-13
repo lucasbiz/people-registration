@@ -2,7 +2,6 @@ import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { UserListComponent } from '../user-list/user-list.component';
 import { ModalHelperService } from '../../services/modal-helper.service';
 import { ButtonModule } from 'primeng/button';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
@@ -19,18 +18,6 @@ export class PeopleRegistrationComponent {
   private readonly toastService = inject(ToastService);
 
   newRegister(): void {
-    this.modalHelperService
-      .registerOrEdit('Criar novo cadastro')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          this.userListComponent.renderUsers(
-            this.userListComponent.usersData.currentPage,
-          );
-        },
-        error: () => {
-          this.toastService.showError('Erro!', 'Erro ao criar novo usuário');
-        },
-      });
+    this.userListComponent.onCreate();
   }
 }

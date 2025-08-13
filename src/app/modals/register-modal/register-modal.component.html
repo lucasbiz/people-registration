@@ -73,6 +73,7 @@
 
         <p-popover #birthdatePopover appendTo="body">
           <p-datepicker
+            size="small"
             dateFormat="dd/mm/yyyy"
             placeholder="00/00/0000"
             [inline]="true"
@@ -90,12 +91,10 @@
       >{{ saveButtonText }}<i class="pi pi-arrow-right"></i
     ></p-button>
 
-    <p-button
-      severity="secondary"
-      (click)="closeModal()"
-      [rounded]="true"
-      class="flex justify-center mt-5"
-      >Cancelar</p-button
-    >
+    <div class="flex justify-center mt-5">
+      <p-button severity="secondary" (click)="closeModal()" [rounded]="true"
+        >Cancelar</p-button
+      >
+    </div>
   </form>
 </div>

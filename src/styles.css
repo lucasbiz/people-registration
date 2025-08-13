@@ -21,3 +21,7 @@ body {
   font-family: "JetBrains Mono", monospace;
   height: 100vh;
 }
+
+.p-popover-content {
+  padding: 0;
+}

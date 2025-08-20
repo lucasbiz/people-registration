@@ -12,7 +12,7 @@
     "prettier": "prettier \"**/*.{css,md,json,js,cjs,mjs,html,ts}\" --check",
     "prettier:fix": "prettier \"**/*.{css,md,json,js,cjs,mjs,html,ts}\" --write",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "ng test --watch"
   },
   "private": true,
   "dependencies": {

@@ -55,7 +55,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result: boolean) => {
         if (result) {
-          this.onPageChange({ page: this.usersData.currentPage });
+          this.onPageChange({ page: this.usersData.currentPage - 1 });
         }
       });
   }

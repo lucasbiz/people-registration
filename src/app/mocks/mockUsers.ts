@@ -95,3 +95,13 @@ export const mockUsers = {
   limit: 10,
   count: 21,
 };
+
+export const uniqueUser = {
+  id: 451,
+  email: 'lucas@mail.com',
+  name: 'lucas',
+  phone: '(23) 53453-4534',
+  birthDate: '2000-05-02T00:00:00.000Z',
+  createdAt: '2025-06-25T17:45:00.944Z',
+  updatedAt: '2025-06-25T17:45:00.944Z',
+};

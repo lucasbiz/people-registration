@@ -12,7 +12,8 @@
     "prettier": "prettier \"**/*.{css,md,json,js,cjs,mjs,html,ts}\" --check",
     "prettier:fix": "prettier \"**/*.{css,md,json,js,cjs,mjs,html,ts}\" --write",
     "test": "jest",
-    "test:watch": "ng test --watch"
+    "test:watch": "ng test --watch",
+    "debug-tailwind": "npx tailwindcss -i ./src/styles.css -o ./dist/tailwind-output.css --watch --verbose"
   },
   "private": true,
   "dependencies": {

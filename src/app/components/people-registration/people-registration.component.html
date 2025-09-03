@@ -10,5 +10,17 @@
       >Novo Cadastro<i class="pi pi-arrow-right"></i
     ></p-button>
   </div>
+  <div>
+    <p-iconfield>
+      <p-inputicon class="pi pi-search" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Procurar"
+        #searchText
+        (input)="onSearchSubmit(searchText.value)"
+      />
+    </p-iconfield>
+  </div>
   <app-user-list></app-user-list>
 </div>

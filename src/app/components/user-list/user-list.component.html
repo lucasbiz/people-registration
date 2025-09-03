@@ -1,4 +1,4 @@
-<div class="bg-white min-h-[40vh]">
+<div class="bg-white">
   <div class="overflow-x-auto">
     <div class="min-w-max">
       <div
@@ -10,7 +10,7 @@
         <div>Data de nascimento</div>
       </div>
 
-      <div class="overflow-y-scroll max-h-[50vh]">
+      <div class="overflow-y-scroll max-h-[40vh]">
         <ng-container *ngFor="let user of usersData.users">
           <app-user-row
             [user]="user"
@@ -21,6 +21,10 @@
       </div>
     </div>
   </div>
+
+  <!-- @if () {
+    <div class="text-center m-10"><i class="pi pi-exclamation-circle" style="font-size: 1.5rem"></i><p>Usuário não encontrado!</p></div>
+  } -->
 
   <div class="flex justify-center p-2 space-x-4 bg-white">
     <p-paginator

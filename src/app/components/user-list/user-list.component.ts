@@ -33,6 +33,10 @@ export class UserListComponent implements OnInit {
     this.onPageChange({ page: 0 });
   }
 
+  onFilter(inputText: string) {
+    console.log(inputText);
+  }
+
   onCreate() {
     this.modalHelperService
       .registerOrEdit('Criar novo cadastro')

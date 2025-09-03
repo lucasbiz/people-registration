@@ -1,21 +1,24 @@
-import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { UserListComponent } from '../user-list/user-list.component';
-import { ModalHelperService } from '../../services/modal-helper.service';
 import { ButtonModule } from 'primeng/button';
-import { ToastService } from '../../services/toast.service';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-people-registration',
-  imports: [ButtonModule, UserListComponent],
+  imports: [ButtonModule, UserListComponent, IconField, InputIcon, InputText],
   templateUrl: './people-registration.component.html',
   styleUrl: './people-registration.component.css',
 })
 export class PeopleRegistrationComponent {
   @ViewChild(UserListComponent) userListComponent!: UserListComponent;
 
-  private destroyRef = inject(DestroyRef);
-  private readonly modalHelperService = inject(ModalHelperService);
-  private readonly toastService = inject(ToastService);
+  searchText = signal('');
+
+  onSearchSubmit(inputText: string): void {
+    this.userListComponent.onFilter(inputText);
+  }
 
   newRegister(): void {
     this.userListComponent.onCreate();

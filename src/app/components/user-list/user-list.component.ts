@@ -29,15 +29,17 @@ export class UserListComponent implements OnInit {
   private readonly toastService = inject(ToastService);
 
   public searchTerm = signal('');
-  private currentPageUsers = signal<User[]>([]);
-
-  public totalCount = 0;
-  public rows = 10;
-  public currentPage = 1;
+  public usersPage = signal<UsersData>({
+    users: [],
+    currentPage: 0,
+    limit: 10,
+    totalCount: 0,
+    totalPages: 0,
+  });
 
   public filteredUsers = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
-    const users = this.currentPageUsers();
+    const users = this.usersPage().users;
 
     if (!term) {
       return users;
@@ -61,7 +63,7 @@ export class UserListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.onPageChange({
-            page: this.currentPage - 1,
+            page: this.usersPage().currentPage - 1,
           });
         },
         error: () => {
@@ -76,7 +78,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result: boolean) => {
         if (result) {
-          this.onPageChange({ page: this.currentPage - 1 });
+          this.onPageChange({ page: this.usersPage().currentPage - 1 });
         }
       });
   }
@@ -95,10 +97,11 @@ export class UserListComponent implements OnInit {
             'Cadastro excluído com sucesso!',
           );
           const pageToLoad =
-            this.currentPageUsers().length === 1 && this.currentPage > 1
-              ? this.currentPage - 2
-              : this.currentPage - 1;
-          this.onPageChange({ page: pageToLoad, rows: this.rows });
+            this.usersPage().users.length === 1 &&
+            this.usersPage().currentPage > 1
+              ? this.usersPage().currentPage - 2
+              : this.usersPage().currentPage - 1;
+          this.onPageChange({ page: pageToLoad, rows: this.usersPage().limit });
         },
         error: () =>
           this.toastService.showError('Erro!', 'Erro ao excluir usuário'),
@@ -111,10 +114,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data: UsersData) => {
-          this.currentPageUsers.set(data.users);
-          this.totalCount = data.totalCount;
-          this.rows = data.limit;
-          this.currentPage = data.currentPage;
+          this.usersPage.set(data);
         },
         error: () => {
           this.toastService.showError('Erro!', 'Erro ao carregar usuários');

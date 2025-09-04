@@ -1,4 +1,6 @@
-<div class="flex flex-col space-y-9 mt-10 mb-20 max-w-[1024px] mx-auto">
+<div
+  class="flex flex-col space-y-9 mt-10 mb-20 ml-10 mr-10 max-w-[1024px] mx-auto"
+>
   <div class="flex flex-row justify-between">
     <h1 class="text-white text-4xl font-semibold">Cadastro de pessoas</h1>
     <p-button
@@ -17,8 +19,8 @@
         type="text"
         pInputText
         placeholder="Procurar"
-        #searchText
-        (input)="onSearchSubmit(searchText.value)"
+        [value]="searchText()"
+        (input)="onInput($event)"
       />
     </p-iconfield>
   </div>

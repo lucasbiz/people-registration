@@ -1,4 +1,11 @@
-import { Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { UserRowComponent } from '../user-row/user-row.component';
 import { User, UsersData } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
@@ -16,21 +23,37 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
   styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
-  @Input() usersData: UsersData = {
-    users: [],
-    currentPage: 1,
-    limit: 10,
-    totalCount: 0,
-    totalPages: 0,
-  };
-
   private readonly destroyRef = inject(DestroyRef);
   private readonly usersService = inject(UsersService);
   private readonly modalHelperService = inject(ModalHelperService);
   private readonly toastService = inject(ToastService);
 
+  public searchTerm = signal('');
+  public usersPage = signal<UsersData>({
+    users: [],
+    currentPage: 0,
+    limit: 10,
+    totalCount: 0,
+    totalPages: 0,
+  });
+
+  public filteredUsers = computed(() => {
+    const term = this.searchTerm().toLowerCase().trim();
+    const users = this.usersPage().users;
+
+    if (!term) {
+      return users;
+    }
+
+    return users.filter((user) => user.name.toLowerCase().includes(term));
+  });
+
   ngOnInit(): void {
     this.onPageChange({ page: 0 });
+  }
+
+  onFilter(inputText: string) {
+    this.searchTerm.set(inputText);
   }
 
   onCreate() {
@@ -40,7 +63,7 @@ export class UserListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.onPageChange({
-            page: this.usersData.currentPage - 1,
+            page: this.usersPage().currentPage - 1,
           });
         },
         error: () => {
@@ -55,7 +78,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result: boolean) => {
         if (result) {
-          this.onPageChange({ page: this.usersData.currentPage - 1 });
+          this.onPageChange({ page: this.usersPage().currentPage - 1 });
         }
       });
   }
@@ -70,17 +93,15 @@ export class UserListComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.usersData.users = this.usersData.users.filter(
-            (user) => user.id !== userId,
-          );
-          if (this.usersData.users.length === 0) {
-            this.onPageChange({ page: this.usersData.currentPage - 2 });
-          } else {
-            this.onPageChange({ page: this.usersData.currentPage - 1 });
-          }
           this.modalHelperService.showSuccessMessage(
             'Cadastro excluído com sucesso!',
           );
+          const pageToLoad =
+            this.usersPage().users.length === 1 &&
+            this.usersPage().currentPage > 1
+              ? this.usersPage().currentPage - 2
+              : this.usersPage().currentPage - 1;
+          this.onPageChange({ page: pageToLoad, rows: this.usersPage().limit });
         },
         error: () =>
           this.toastService.showError('Erro!', 'Erro ao excluir usuário'),
@@ -93,7 +114,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data: UsersData) => {
-          this.usersData = data;
+          this.usersPage.set(data);
         },
         error: () => {
           this.toastService.showError('Erro!', 'Erro ao carregar usuários');

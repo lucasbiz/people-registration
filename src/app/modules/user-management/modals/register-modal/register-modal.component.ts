@@ -14,11 +14,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UsersService } from '../../services/user.service';
-import { User, UserForm } from '../../models/user.model';
+import { UsersService } from '@services/user.service';
+import { User, UserForm } from '../../../../shared/models/user.model';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ModalHelperService } from '../../services/modal-helper.service';
+import { ModalHelperService } from '@services/modal-helper.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { ToastService } from '@services/toast.service';
@@ -28,7 +28,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PopoverModule } from 'primeng/popover';
 import { InputMaskModule } from 'primeng/inputmask';
-import { formatDateDayMonthYear } from '../../utils/date-utils';
+import { formatDateDayMonthYear } from '../../../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-register-modal',

@@ -29,3 +29,8 @@ export interface UserForm {
   phone: string;
   birthDate: string;
 }
+
+export interface UserLogin {
+  email: string;
+  name: string;
+}

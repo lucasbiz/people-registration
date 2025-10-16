@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { payloadHelper } from './user.helper';
-import { formatToIsoDate } from '../utils/date-utils';
-import { UserForm } from '../models/user.model';
+import { formatToIsoDate } from '../shared/utils/date-utils';
+import { UserForm } from '../shared/models/user.model';
 
 describe('payloadHelper', () => {
   it('should format phone and birthDate', () => {

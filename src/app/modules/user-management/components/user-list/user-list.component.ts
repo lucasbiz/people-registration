@@ -7,13 +7,13 @@ import {
   signal,
 } from '@angular/core';
 import { UserRowComponent } from '../user-row/user-row.component';
-import { User, UsersData } from '../../models/user.model';
+import { UsersData, User } from '../../../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
-import { UsersService } from '../../services/user.service';
-import { ModalHelperService } from '../../services/modal-helper.service';
+import { UsersService } from '@services/user.service';
+import { ModalHelperService } from '@services/modal-helper.service';
 import { filter, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ToastService } from '../../services/toast.service';
+import { ToastService } from '@services/toast.service';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({

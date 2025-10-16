@@ -4,11 +4,11 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { mockUsers } from '../mocks/mockUsers';
+import { mockUsers } from '../shared/mocks/mockUsers';
 import { baseApiUrl } from '../../environments/environment';
 import { firstValueFrom } from 'rxjs';
-import { payloadHelper } from '../helpers/user.helper';
-import { UserForm } from '../models/user.model';
+import { payloadHelper } from '../shared/helpers/user.helper';
+import { UserForm } from '../shared/models/user.model';
 
 describe('UsersService', () => {
   let service: UsersService;

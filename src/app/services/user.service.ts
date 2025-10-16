@@ -6,10 +6,10 @@ import {
   User,
   UserForm,
   UsersData,
-} from '../models/user.model';
+} from '../shared/models/user.model';
 import { baseApiUrl } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { payloadHelper } from '../helpers/user.helper';
+import { payloadHelper } from '../shared/helpers/user.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -20,30 +20,35 @@ export class UsersService {
   getUsers(page: number, limit: number): Observable<UsersData> {
     const params = { page: (page + 1).toString(), limit: limit.toString() };
 
-    return this.http.get<RawUsersResponse>(`${baseApiUrl}`, { params }).pipe(
-      map((response) => {
-        return {
-          users: response.results,
-          currentPage: response.page,
-          limit: response.limit,
-          totalCount: response.count,
-          totalPages: Math.ceil(response.count / response.limit),
-        };
-      }),
-    );
+    return this.http
+      .get<RawUsersResponse>(`${baseApiUrl}persons`, { params })
+      .pipe(
+        map((response) => {
+          return {
+            users: response.results,
+            currentPage: response.page,
+            limit: response.limit,
+            totalCount: response.count,
+            totalPages: Math.ceil(response.count / response.limit),
+          };
+        }),
+      );
   }
 
   createUser(userData: UserForm): Observable<User> {
-    return this.http.post<User>(baseApiUrl, payloadHelper(userData));
+    return this.http.post<User>(
+      `${baseApiUrl}persons`,
+      payloadHelper(userData),
+    );
   }
 
   deleteUser(userID: number): Observable<number> {
-    return this.http.delete<number>(baseApiUrl + '/' + userID);
+    return this.http.delete<number>(baseApiUrl + 'persons/' + userID);
   }
 
   updateUser(id: number, userData: UserForm): Observable<User> {
     return this.http.patch<User>(
-      `${baseApiUrl}/${id}`,
+      `${baseApiUrl}persons/${id}`,
       payloadHelper(userData),
     );
   }

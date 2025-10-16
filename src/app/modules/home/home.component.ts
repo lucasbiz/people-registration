@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PeopleRegistrationComponent } from '../../components/people-registration/people-registration.component';
 import { ToastModule } from 'primeng/toast';
+import { PeopleRegistrationComponent } from '../user-management/components/people-registration/people-registration.component';
 
 @Component({
   selector: 'app-home',

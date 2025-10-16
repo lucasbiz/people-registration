@@ -1,0 +1,57 @@
+<div class="max-w-[25rem] mx-auto">
+  <p-card>
+    <form [formGroup]="form" (ngSubmit)="registerHandler()">
+      <p-fluid>
+        <div class="flex flex-col gap-2 mb-4">
+          <label for="email-input">E-mail</label>
+          <input
+            pInputText
+            id="email-input"
+            type="email"
+            formControlName="email"
+          />
+          @if (email?.invalid && email?.touched) {
+            <p-message
+              class="text-xs"
+              severity="error"
+              size="small"
+              variant="simple"
+              >E-mail inválido.</p-message
+            >
+          }
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+          <label for="password-input">Senha</label>
+          <input
+            pInputText
+            id="password-input"
+            type="password"
+            formControlName="password"
+          />
+          @if (password?.invalid && password?.touched) {
+            <p-message
+              class="text-xs"
+              severity="error"
+              size="small"
+              variant="simple"
+              >Senha inválida.</p-message
+            >
+          }
+        </div>
+      </p-fluid>
+
+      <p-button
+        type="submit"
+        class="flex justify-center mt-5"
+        [rounded]="true"
+        size="large"
+        >Cadastrar<i class="pi pi-arrow-right"></i
+      ></p-button>
+    </form>
+    <a routerLink="/auth/login" class="flex justify-center mt-5">
+      <p-message class="text-xs" severity="info" size="small" variant="simple"
+        >Já tem uma conta? Entre aqui!</p-message
+      >
+    </a>
+  </p-card>
+</div>

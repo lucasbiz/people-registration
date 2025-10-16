@@ -4,11 +4,11 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { RegisterModalComponent } from '../modals/register-modal/register-modal.component';
-import { User } from '../models/user.model';
-import { ConfirmDeletionModalComponent } from '../modals/confirm-deletion-modal/confirm-deletion-modal.component';
+import { RegisterModalComponent } from '../modules/user-management/modals/register-modal/register-modal.component';
+import { User } from '../shared/models/user.model';
+import { ConfirmDeletionModalComponent } from '../modules/user-management/modals/confirm-deletion-modal/confirm-deletion-modal.component';
 import { Observable } from 'rxjs';
-import { SuccessModalComponent } from '../modals/success-modal/success-modal.component';
+import { SuccessModalComponent } from '../shared/modals/success-modal/success-modal.component';
 
 @Injectable({
   providedIn: 'root',

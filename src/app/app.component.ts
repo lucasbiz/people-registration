@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from './pages/home/home.component';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [HomeComponent, ButtonModule],
-  template: '<app-home></app-home>',
+  imports: [ButtonModule, ToastModule, RouterOutlet],
+  template: `<router-outlet></router-outlet> <p-toast></p-toast>`,
 })
 export class AppComponent {
   title = 'people-registration';

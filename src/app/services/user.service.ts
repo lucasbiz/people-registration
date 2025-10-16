@@ -19,17 +19,16 @@ export class UsersService {
 
   getUsers(page: number, limit: number): Observable<UsersData> {
     const params = { page: (page + 1).toString(), limit: limit.toString() };
-
     return this.http
       .get<RawUsersResponse>(`${baseApiUrl}persons`, { params })
       .pipe(
         map((response) => {
           return {
             users: response.results,
-            currentPage: response.page,
-            limit: response.limit,
-            totalCount: response.count,
-            totalPages: Math.ceil(response.count / response.limit),
+            currentPage: response.pagination.currentPage,
+            limit: response.pagination.limit,
+            totalCount: response.pagination.totalItems,
+            totalPages: response.pagination.totalPages,
           };
         }),
       );

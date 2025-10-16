@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
@@ -33,7 +33,6 @@ import { ToastService } from '@services/toast.service';
 export class LoginComponent {
   form: FormGroup;
 
-  private destroyRef: DestroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);

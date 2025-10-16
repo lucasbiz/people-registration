@@ -31,7 +31,7 @@ export class UserListComponent implements OnInit {
   public searchTerm = signal('');
   public usersPage = signal<UsersData>({
     users: [],
-    currentPage: 0,
+    currentPage: 1,
     limit: 10,
     totalCount: 0,
     totalPages: 0,
@@ -63,7 +63,7 @@ export class UserListComponent implements OnInit {
       .subscribe({
         next: () => {
           this.onPageChange({
-            page: this.usersPage().currentPage - 1,
+            page: 0,
           });
         },
         error: () => {
@@ -114,6 +114,7 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data: UsersData) => {
+          console.log(data);
           this.usersPage.set(data);
         },
         error: () => {

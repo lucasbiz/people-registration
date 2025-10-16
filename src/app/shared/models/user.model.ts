@@ -18,9 +18,12 @@ export interface UsersData {
 
 export interface RawUsersResponse {
   results: User[];
-  page: number;
-  limit: number;
-  count: number;
+  pagination: {
+    currentPage: number;
+    limit: number;
+    totalItems: number;
+    totalPages: number;
+  };
 }
 
 export interface UserForm {
@@ -28,9 +31,4 @@ export interface UserForm {
   email: string;
   phone: string;
   birthDate: string;
-}
-
-export interface UserLogin {
-  email: string;
-  name: string;
 }

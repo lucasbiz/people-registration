@@ -6,7 +6,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
   selector: 'app-confirm-deletion-modal',
   imports: [ButtonModule],
   templateUrl: './confirm-deletion-modal.component.html',
-  styleUrl: './confirm-deletion-modal.component.css',
 })
 export class ConfirmDeletionModalComponent {
   @Output() userDeleted = new EventEmitter<void>();

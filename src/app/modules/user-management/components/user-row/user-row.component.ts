@@ -7,7 +7,6 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-user-row',
   imports: [CommonModule, ButtonModule],
   templateUrl: './user-row.component.html',
-  styleUrl: './user-row.component.css',
 })
 export class UserRowComponent {
   @Input() user!: User;

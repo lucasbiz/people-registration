@@ -9,7 +9,6 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-people-registration',
   imports: [ButtonModule, UserListComponent],
   templateUrl: './people-registration.component.html',
-  styleUrl: './people-registration.component.css',
 })
 export class PeopleRegistrationComponent {
   @ViewChild(UserListComponent) userListComponent!: UserListComponent;

@@ -21,7 +21,6 @@ import { Router } from '@angular/router';
   selector: 'app-user-list',
   imports: [UserRowComponent, CommonModule, PaginatorModule],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);

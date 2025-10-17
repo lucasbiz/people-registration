@@ -3,118 +3,16 @@
 </div>
 
 <div class="mt-3">
-  <form [formGroup]="form" (ngSubmit)="saveRegister()">
-    <p-fluid>
-      <div class="flex flex-col gap-2 mb-4">
-        <label for="name-input">Nome</label>
-        <input pInputText id="name-input" type="text" formControlName="name" />
-        @if (name?.invalid && name?.touched) {
-          <p-message
-            class="text-xs"
-            severity="error"
-            size="small"
-            variant="simple"
-            >Nome é obrigatório e deve ter pelo menos 3 letras.</p-message
-          >
-        }
-      </div>
+  <app-user-form
+    [form]="form"
+    [submitLabel]="saveButtonText"
+    (formSubmit)="saveRegister()"
+    [formInputs]="formInputs"
+  ></app-user-form>
 
-      <div class="flex flex-col gap-2 mb-4">
-        <label for="email-input">E-mail</label>
-        <input
-          pInputText
-          id="email-input"
-          type="email"
-          formControlName="email"
-        />
-        @if (email?.invalid && email?.touched) {
-          <p-message
-            class="text-xs"
-            severity="error"
-            size="small"
-            variant="simple"
-            >E-mail inválido.</p-message
-          >
-        }
-      </div>
-      <div class="flex flex-col gap-2 mb-4">
-        <label for="password-input">Senha</label>
-        <p-password
-          id="password-input"
-          formControlName="password"
-          [toggleMask]="true"
-          [feedback]="false"
-        />
-        @if (password?.invalid && password?.touched) {
-          <p-message
-            class="text-xs"
-            severity="error"
-            size="small"
-            variant="simple"
-            >Sua senha precisa ter pelo menos 8 caracteres, uma letra maiúscula,
-            uma letra minúscula e um número.</p-message
-          >
-        }
-      </div>
-
-      <div class="flex flex-col gap-2 mb-4 w-full">
-        <label for="phone-input">Telefone</label>
-        <p-inputmask
-          id="phone-input"
-          type="text"
-          formControlName="phone"
-          mask="(99) 99999-9999"
-        />
-        @if (phone?.invalid && phone?.touched) {
-          <p-message severity="error" size="small" variant="simple"
-            >Telefone inválido.</p-message
-          >
-        }
-      </div>
-
-      <div class="flex flex-col gap-2 mb-4">
-        <label for="birthdate-input">Data de nascimento</label>
-        <p-inputmask
-          id="birthdate-input"
-          mask="99/99/9999"
-          aria-describedby="username-help"
-          (onFocus)="birthdatePopover.show($event)"
-          formControlName="birthDate"
-        ></p-inputmask>
-        @if (birthDate?.invalid && birthDate?.touched) {
-          <p-message
-            class="text-xs"
-            severity="error"
-            size="small"
-            variant="simple"
-            >Data de nascimento inválida.</p-message
-          >
-        }
-
-        <p-popover #birthdatePopover appendTo="body">
-          <p-datepicker
-            size="small"
-            dateFormat="dd/mm/yyyy"
-            placeholder="00/00/0000"
-            [inline]="true"
-            (onSelect)="onSelectBirthDate($event)"
-          ></p-datepicker>
-        </p-popover>
-      </div>
-    </p-fluid>
-
-    <p-button
-      type="submit"
-      class="flex justify-center mt-5"
-      [rounded]="true"
-      size="large"
-      >{{ saveButtonText }}<i class="pi pi-arrow-right"></i
-    ></p-button>
-
-    <div class="flex justify-center mt-5">
-      <p-button severity="secondary" (click)="closeModal()" [rounded]="true"
-        >Cancelar</p-button
-      >
-    </div>
-  </form>
+  <div class="flex justify-center mt-5">
+    <p-button severity="secondary" (click)="closeModal()" [rounded]="true"
+      >Cancelar</p-button
+    >
+  </div>
 </div>

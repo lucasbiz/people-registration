@@ -29,6 +29,7 @@ import { MessageModule } from 'primeng/message';
 import { PopoverModule } from 'primeng/popover';
 import { InputMaskModule } from 'primeng/inputmask';
 import { formatDateDayMonthYear } from '../../../../shared/utils/date-utils';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-register-modal',
@@ -42,6 +43,7 @@ import { formatDateDayMonthYear } from '../../../../shared/utils/date-utils';
     PopoverModule,
     InputMaskModule,
     FormsModule,
+    PasswordModule,
   ],
   templateUrl: './register-modal.component.html',
   styleUrl: './register-modal.component.css',
@@ -71,6 +73,10 @@ export class RegisterModalComponent implements OnInit {
       }),
       email: this.fb.control('', {
         validators: [Validators.required, Validators.email],
+        updateOn: 'submit',
+      }),
+      password: this.fb.control('', {
+        validators: [Validators.required, Validators.maxLength(100)],
         updateOn: 'submit',
       }),
       phone: this.fb.control('', {
@@ -140,6 +146,9 @@ export class RegisterModalComponent implements OnInit {
   }
   get email() {
     return this.form.get('email');
+  }
+  get password() {
+    return this.form.get('password');
   }
   get phone() {
     return this.form.get('phone');

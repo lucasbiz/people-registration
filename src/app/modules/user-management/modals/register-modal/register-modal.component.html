@@ -37,6 +37,26 @@
           >
         }
       </div>
+      <div class="flex flex-col gap-2 mb-4">
+        <label for="password-input">Senha</label>
+        <p-password
+          id="password-input"
+          formControlName="password"
+          [toggleMask]="true"
+          [feedback]="false"
+        />
+        @if (password?.invalid && password?.touched) {
+          <p-message
+            class="text-xs"
+            severity="error"
+            size="small"
+            variant="simple"
+            >Sua senha precisa ter pelo menos 8 caracteres, uma letra maiúscula,
+            uma letra minúscula e um número.</p-message
+          >
+        }
+      </div>
+
       <div class="flex flex-col gap-2 mb-4 w-full">
         <label for="phone-input">Telefone</label>
         <p-inputmask

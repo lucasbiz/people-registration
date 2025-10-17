@@ -19,6 +19,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { AuthService } from '../services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '@services/toast.service';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-register',
@@ -34,6 +35,7 @@ import { ToastService } from '@services/toast.service';
     PopoverModule,
     DatePickerModule,
     InputMaskModule,
+    PasswordModule,
   ],
   standalone: true,
   templateUrl: './register.component.html',

@@ -14,6 +14,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '@services/toast.service';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ import { ToastService } from '@services/toast.service';
     FormsModule,
     CardModule,
     RouterLink,
+    PasswordModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

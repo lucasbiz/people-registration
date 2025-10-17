@@ -40,11 +40,11 @@
         </div>
         <div class="flex flex-col gap-2 mb-4">
           <label for="password-input">Senha</label>
-          <input
-            pInputText
+          <p-password
             id="password-input"
-            type="password"
             formControlName="password"
+            [toggleMask]="true"
+            [feedback]="false"
           />
           @if (password?.invalid && password?.touched) {
             <p-message

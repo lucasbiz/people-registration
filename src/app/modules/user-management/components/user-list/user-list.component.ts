@@ -1,11 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  OnInit,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { UserRowComponent } from '../user-row/user-row.component';
 import { UsersData, User } from '../../../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
@@ -15,7 +8,7 @@ import { filter, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '@services/toast.service';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -27,9 +20,9 @@ export class UserListComponent implements OnInit {
   private readonly usersService = inject(UsersService);
   private readonly modalHelperService = inject(ModalHelperService);
   private readonly toastService = inject(ToastService);
-  private readonly router = inject(Router);
+  // private readonly router = inject(Router);
 
-  public searchTerm = signal('');
+  // public searchTerm = signal('');
   public usersPage = signal<UsersData>({
     users: [],
     currentPage: 1,
@@ -38,23 +31,33 @@ export class UserListComponent implements OnInit {
     totalPages: 0,
   });
 
-  public filteredUsers = computed(() => {
-    const term = this.searchTerm().toLowerCase().trim();
-    const users = this.usersPage().users;
+  // public filteredUsers = computed(() => {
+  //   const term = this.searchTerm().toLowerCase().trim();
+  //   const users = this.usersPage().users;
 
-    if (!term) {
-      return users;
-    }
+  //   if (!term) {
+  //     return users;
+  //   }
 
-    return users.filter((user) => user.name.toLowerCase().includes(term));
-  });
+  //   return users.filter((user) => user.name.toLowerCase().includes(term));
+  // });
 
   ngOnInit(): void {
     this.onPageChange({ page: 0 });
   }
 
   onFilter(inputText: string) {
-    this.searchTerm.set(inputText);
+    const term = inputText;
+
+    if (!term) {
+      this.onPageChange({ page: 0 });
+    }
+
+    this.usersService.searchUser(inputText).subscribe({
+      next: (res) => {
+        this.usersPage().users = res;
+      },
+    });
   }
 
   onCreate() {

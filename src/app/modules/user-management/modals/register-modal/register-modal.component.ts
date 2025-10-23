@@ -49,7 +49,6 @@ import { UserFormComponent } from '../../../../shared/components/user-form/user-
 })
 export class RegisterModalComponent {
   form: FormGroup;
-  formSubmitted = false;
 
   @Output() renderUsersCall = new EventEmitter<void>();
   @Input() formInputs?: User;

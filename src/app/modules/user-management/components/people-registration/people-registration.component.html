@@ -10,17 +10,18 @@
       >Novo Cadastro<i class="pi pi-arrow-right"></i
     ></p-button>
   </div>
-  <!-- <div>
-    <p-iconfield>
-      <p-inputicon class="pi pi-search" />
-      <input
-        type="text"
-        pInputText
-        placeholder="Procurar"
-        [value]="searchText()"
-        (input)="onInput($event)"
-      />
-    </p-iconfield>
-  </div> -->
+  <div>
+    <form [formGroup]="searchForm" (submit)="onSearch()">
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input
+          type="text"
+          pInputText
+          placeholder="Procurar"
+          formControlName="searchText"
+        />
+      </p-iconfield>
+    </form>
+  </div>
   <app-user-list></app-user-list>
 </div>

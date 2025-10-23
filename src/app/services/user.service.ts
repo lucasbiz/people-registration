@@ -51,4 +51,9 @@ export class UsersService {
       payloadHelper(userData),
     );
   }
+
+  searchUser(searchInput: string): Observable<User[]> {
+    const params = { searchTerm: searchInput };
+    return this.http.get<User[]>(`${baseApiUrl}persons/search`, { params });
+  }
 }

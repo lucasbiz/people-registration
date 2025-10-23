@@ -11,7 +11,7 @@
       </div>
 
       <div class="overflow-y-scroll max-h-[40vh]">
-        <ng-container *ngFor="let user of filteredUsers()">
+        <ng-container *ngFor="let user of usersPage().users">
           <app-user-row
             [user]="user"
             (edit)="onEdit($event)"
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  @if (filteredUsers().length === 0) {
+  @if (usersPage().users.length === 0) {
     <div class="text-center m-10">
       <i class="pi pi-exclamation-circle" style="font-size: 1.5rem"></i>
       <p>Usuário não encontrado!</p>

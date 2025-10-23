@@ -1,29 +1,45 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { UserListComponent } from '../user-list/user-list.component';
 import { ButtonModule } from 'primeng/button';
-// import { IconField } from 'primeng/iconfield';
-// import { InputIcon } from 'primeng/inputicon';
-// import { InputText } from 'primeng/inputtext';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-people-registration',
-  imports: [ButtonModule, UserListComponent],
+  imports: [
+    ButtonModule,
+    UserListComponent,
+    InputText,
+    InputIcon,
+    IconField,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './people-registration.component.html',
 })
 export class PeopleRegistrationComponent {
   @ViewChild(UserListComponent) userListComponent!: UserListComponent;
 
-  // searchText = signal('');
+  searchForm: FormGroup;
+  private readonly fb = inject(FormBuilder);
 
-  // onInput(e: Event): void {
-  //   const event = (e.target as HTMLInputElement).value;
-  //   this.searchText.set(event);
-  // }
+  constructor() {
+    this.searchForm = this.fb.group({
+      searchText: this.fb.control('', { updateOn: 'submit' }),
+    });
+  }
 
-  // onSearchChange = effect(() => {
-  //   const value = this.searchText();
-  //   this.userListComponent.onFilter(value);
-  // });
+  onSearch() {
+    const term = this.searchForm.get('searchText')?.value;
+    this.userListComponent.onFilter(term);
+  }
 
   newRegister(): void {
     this.userListComponent.onCreate();

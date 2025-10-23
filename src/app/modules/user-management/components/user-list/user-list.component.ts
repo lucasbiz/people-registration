@@ -15,18 +15,19 @@ import { filter, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '@services/toast.service';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
   imports: [UserRowComponent, CommonModule, PaginatorModule],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly usersService = inject(UsersService);
   private readonly modalHelperService = inject(ModalHelperService);
   private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
 
   public searchTerm = signal('');
   public usersPage = signal<UsersData>({
@@ -114,7 +115,6 @@ export class UserListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data: UsersData) => {
-          console.log(data);
           this.usersPage.set(data);
         },
         error: () => {

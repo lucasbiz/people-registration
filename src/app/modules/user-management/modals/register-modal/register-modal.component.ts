@@ -3,7 +3,6 @@ import {
   DestroyRef,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   inject,
 } from '@angular/core';
@@ -28,7 +27,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PopoverModule } from 'primeng/popover';
 import { InputMaskModule } from 'primeng/inputmask';
-import { formatDateDayMonthYear } from '../../../../shared/utils/date-utils';
+import { PasswordModule } from 'primeng/password';
+import { UserFormComponent } from '../../../../shared/components/user-form/user-form.component';
 
 @Component({
   selector: 'app-register-modal',
@@ -42,11 +42,12 @@ import { formatDateDayMonthYear } from '../../../../shared/utils/date-utils';
     PopoverModule,
     InputMaskModule,
     FormsModule,
+    PasswordModule,
+    UserFormComponent,
   ],
   templateUrl: './register-modal.component.html',
-  styleUrl: './register-modal.component.css',
 })
-export class RegisterModalComponent implements OnInit {
+export class RegisterModalComponent {
   form: FormGroup;
   formSubmitted = false;
 
@@ -73,6 +74,10 @@ export class RegisterModalComponent implements OnInit {
         validators: [Validators.required, Validators.email],
         updateOn: 'submit',
       }),
+      password: this.fb.control('', {
+        validators: [Validators.required, Validators.maxLength(100)],
+        updateOn: 'submit',
+      }),
       phone: this.fb.control('', {
         validators: [Validators.required],
         updateOn: 'submit',
@@ -84,23 +89,7 @@ export class RegisterModalComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    if (this.formInputs) {
-      this.form.patchValue({
-        name: this.formInputs.name,
-        email: this.formInputs.email,
-        phone: this.formInputs.phone,
-        birthDate: formatDateDayMonthYear(this.formInputs.birthDate),
-      });
-    }
-  }
-
   saveRegister(): void {
-    if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
     const formData: UserForm = this.form.value;
 
     if (this.formInputs) {
@@ -129,22 +118,4 @@ export class RegisterModalComponent implements OnInit {
   }
 
   closeModal = (): void => this.ref.close(true);
-
-  onSelectBirthDate(date: Date): void {
-    this.form
-      .get('birthDate')
-      ?.setValue(formatDateDayMonthYear(date.toISOString()));
-  }
-  get name() {
-    return this.form.get('name');
-  }
-  get email() {
-    return this.form.get('email');
-  }
-  get phone() {
-    return this.form.get('phone');
-  }
-  get birthDate() {
-    return this.form.get('birthDate');
-  }
 }

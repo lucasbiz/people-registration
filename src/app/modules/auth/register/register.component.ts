@@ -14,11 +14,12 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { PopoverModule } from 'primeng/popover';
 import { DatePickerModule } from 'primeng/datepicker';
-import { formatDateDayMonthYear } from '../../../shared/utils/date-utils';
 import { InputMaskModule } from 'primeng/inputmask';
 import { AuthService } from '../services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '@services/toast.service';
+import { PasswordModule } from 'primeng/password';
+import { UserFormComponent } from '../../../shared/components/user-form/user-form.component';
 
 @Component({
   selector: 'app-register',
@@ -34,10 +35,11 @@ import { ToastService } from '@services/toast.service';
     PopoverModule,
     DatePickerModule,
     InputMaskModule,
+    PasswordModule,
+    UserFormComponent,
   ],
   standalone: true,
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   form: FormGroup;
@@ -99,25 +101,5 @@ export class RegisterComponent {
           this.toastService.showError('Erro!', 'Erro ao criar/editar usuário');
         },
       });
-  }
-  onSelectBirthDate(date: Date): void {
-    this.form
-      .get('birthDate')
-      ?.setValue(formatDateDayMonthYear(date.toISOString()));
-  }
-  get email() {
-    return this.form.get('email');
-  }
-  get password() {
-    return this.form.get('password');
-  }
-  get name() {
-    return this.form.get('name');
-  }
-  get phone() {
-    return this.form.get('phone');
-  }
-  get birthDate() {
-    return this.form.get('birthDate');
   }
 }

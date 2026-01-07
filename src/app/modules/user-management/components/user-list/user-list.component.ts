@@ -20,9 +20,7 @@ export class UserListComponent implements OnInit {
   private readonly usersService = inject(UsersService);
   private readonly modalHelperService = inject(ModalHelperService);
   private readonly toastService = inject(ToastService);
-  // private readonly router = inject(Router);
 
-  // public searchTerm = signal('');
   public usersPage = signal<UsersData>({
     users: [],
     currentPage: 1,
@@ -30,17 +28,6 @@ export class UserListComponent implements OnInit {
     totalCount: 0,
     totalPages: 0,
   });
-
-  // public filteredUsers = computed(() => {
-  //   const term = this.searchTerm().toLowerCase().trim();
-  //   const users = this.usersPage().users;
-
-  //   if (!term) {
-  //     return users;
-  //   }
-
-  //   return users.filter((user) => user.name.toLowerCase().includes(term));
-  // });
 
   ngOnInit(): void {
     this.onPageChange({ page: 0 });

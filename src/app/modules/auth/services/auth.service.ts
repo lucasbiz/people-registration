@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserLogin } from '../../../shared/models/auth.model';
 import { toLowerCase } from '../../../shared/utils/string.utils';
-import { baseApiUrl } from '../../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import {
   RegisterUserInputs,
@@ -23,7 +22,7 @@ export class AuthService {
       email: toLowerCase(credentials.email),
     };
     return this.http
-      .post<ResponseToken>(`${baseApiUrl}auth/login`, sanitizedCredentials)
+      .post<ResponseToken>('auth/login', sanitizedCredentials)
       .pipe(
         tap((response) => {
           localStorage.setItem('token', response.token);
@@ -32,9 +31,6 @@ export class AuthService {
   }
 
   registerNewUser(userData: RegisterUserInputs): Observable<User> {
-    return this.http.post<User>(
-      `${baseApiUrl}auth/register`,
-      payloadHelper(userData),
-    );
+    return this.http.post<User>('auth/register', payloadHelper(userData));
   }
 }

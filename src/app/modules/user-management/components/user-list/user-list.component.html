@@ -1,40 +1,55 @@
 <div class="bg-white">
-  <div class="overflow-x-auto">
-    <div class="min-w-max">
-      <div
-        class="grid grid-cols-4 font-bold bg-gray-900 text-white p-3 whitespace-nowrap"
-      >
-        <div class="pl-6">Nome</div>
-        <div>E-mail</div>
-        <div>Telefone</div>
-        <div>Data de nascimento</div>
+  <div class="min-w-max">
+    <!-- class="grid grid-cols-4 font-bold bg-gray-900 text-white p-3 whitespace-nowrap" -->
+    @if (usersPage().users.length > 0) {
+      <div class="max-h-[60vh]">
+        <p-table
+          [value]="usersPage().users"
+          stripedRows
+          [tableStyle]="{ 'min-width': '50rem' }"
+          [paginator]="true"
+          [scrollable]="true"
+          scrollHeight="300px"
+          (onPage)="onPageChange($event)"
+          [rows]="usersPage().limit"
+          [totalRecords]="usersPage().totalCount"
+          [rowsPerPageOptions]="[10, 20, 30]"
+        >
+          <ng-template #header>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Data de nascimento</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-persons>
+            <tr>
+              <td>{{ persons.name }}</td>
+              <td>{{ persons.email }}</td>
+              <td>{{ persons.phone }}</td>
+              <td>{{ persons.birthDate | date: "dd/MM/yyyy" : "UTC" }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <p-button icon="pi pi-pencil" (click)="onEdit(persons)" />
+                  <p-button
+                    icon="pi pi-trash"
+                    aria-label="Save"
+                    (click)="onDelete(persons.id)"
+                  />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
-
-      <div class="overflow-y-scroll max-h-[40vh]">
-        <ng-container *ngFor="let user of usersPage().users">
-          <app-user-row
-            [user]="user"
-            (edit)="onEdit($event)"
-            (delete)="onDelete($event)"
-          ></app-user-row>
-        </ng-container>
+    }
+    @if (usersPage().users.length === 0) {
+      <div class="text-center m-10 p-10">
+        <i class="pi pi-exclamation-circle" style="font-size: 1.5rem"></i>
+        <p>Usuário não encontrado!</p>
       </div>
-    </div>
-  </div>
-
-  @if (usersPage().users.length === 0) {
-    <div class="text-center m-10">
-      <i class="pi pi-exclamation-circle" style="font-size: 1.5rem"></i>
-      <p>Usuário não encontrado!</p>
-    </div>
-  }
-
-  <div class="flex justify-center p-2 space-x-4 bg-white">
-    <p-paginator
-      (onPageChange)="onPageChange($event)"
-      [rows]="usersPage().limit"
-      [totalRecords]="usersPage().totalCount"
-      [rowsPerPageOptions]="[10, 20, 30]"
-    />
+    }
   </div>
 </div>

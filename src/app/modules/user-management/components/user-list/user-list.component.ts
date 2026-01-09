@@ -9,10 +9,17 @@ import { ToastService } from '@services/toast.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule, TablePageEvent } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-user-list',
-  imports: [CommonModule, PaginatorModule, TableModule, ButtonModule],
+  imports: [
+    CommonModule,
+    PaginatorModule,
+    TableModule,
+    ButtonModule,
+    ProgressSpinnerModule,
+  ],
   templateUrl: './user-list.component.html',
 })
 export class UserListComponent implements OnInit {
@@ -20,6 +27,7 @@ export class UserListComponent implements OnInit {
   private readonly usersService = inject(UsersService);
   private readonly modalHelperService = inject(ModalHelperService);
   private readonly toastService = inject(ToastService);
+  public loading = signal(true);
 
   public usersPage = signal<UsersData>({
     users: [],
@@ -106,15 +114,18 @@ export class UserListComponent implements OnInit {
   }
 
   onPageChange(event: TablePageEvent): void {
+    this.loading.set(true);
     this.usersService
       .getUsers(event.first ?? 1, event.rows ?? 10)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data: UsersData) => {
           this.usersPage.set(data);
+          this.loading.set(false);
         },
         error: () => {
           this.toastError('Erro!', 'Erro ao carregar usuários');
+          this.loading.set(false);
         },
       });
   }

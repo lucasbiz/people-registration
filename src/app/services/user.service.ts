@@ -47,4 +47,8 @@ export class UsersService {
     const params = { searchTerm: searchInput };
     return this.http.get<User[]>('persons/search', { params });
   }
+
+  logoutUser(): void {
+    localStorage.removeItem('token');
+  }
 }

@@ -18,6 +18,8 @@ import {
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UsersService } from '@services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-people-registration',
@@ -38,6 +40,8 @@ export class PeopleRegistrationComponent implements OnInit {
   searchForm: FormGroup;
   private readonly fb = inject(FormBuilder);
   private destroyRef: DestroyRef = inject(DestroyRef);
+  private usersService: UsersService = inject(UsersService);
+  private router: Router = inject(Router);
 
   constructor() {
     this.searchForm = this.fb.group({
@@ -60,5 +64,10 @@ export class PeopleRegistrationComponent implements OnInit {
 
   newRegister(): void {
     this.userListComponent.onCreate();
+  }
+
+  logout(): void {
+    this.usersService.logoutUser();
+    this.router.navigate(['/login']);
   }
 }

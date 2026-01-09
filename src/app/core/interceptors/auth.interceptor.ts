@@ -11,12 +11,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authReq = token
     ? req.clone({
+        url: `${baseUrl}${req.url}`,
         setHeaders: {
           Authorization: `Bearer ${token}`,
         },
-        url: `${baseUrl}${req.url}`,
       })
-    : req;
+    : req.clone({ url: `${baseUrl}${req.url}` });
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {

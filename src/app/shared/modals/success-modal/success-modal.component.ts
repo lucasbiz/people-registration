@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ButtonModule } from 'primeng/button';
 
@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './success-modal.component.css',
 })
 export class SuccessModalComponent {
-  @Input() modalTitle = '';
+  modalTitle = input.required<string>();
 
   private readonly dynamicDialogRef = inject(DynamicDialogRef);
 

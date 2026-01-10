@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
@@ -8,8 +8,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
   templateUrl: './confirm-deletion-modal.component.html',
 })
 export class ConfirmDeletionModalComponent {
-  @Output() userDeleted = new EventEmitter<void>();
-
   private readonly dynamicDialogRef = inject(DynamicDialogRef);
 
   confirmDeletion(deleteUser: boolean): void {

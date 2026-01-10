@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
@@ -28,51 +28,50 @@ import { User } from '../../models/user.model';
   templateUrl: './user-form.component.html',
 })
 export class UserFormComponent implements OnInit {
-  @Input() form!: FormGroup;
-  @Input() title = '';
-  @Input() submitLabel? = '';
-  @Input() formInputs?: User;
+  form = input.required<FormGroup>();
+  submitLabel = input.required<string>();
+  formInputs = input.required<User>();
 
-  @Output() formSubmit = new EventEmitter<FormGroup>();
+  formSubmit = output<FormGroup>();
 
   ngOnInit(): void {
-    if (this.formInputs) {
-      this.form.patchValue({
-        name: this.formInputs.name,
-        email: this.formInputs.email,
-        phone: this.formInputs.phone,
-        birthDate: formatDateDayMonthYear(this.formInputs.birthDate),
+    if (this.formInputs()) {
+      this.form().patchValue({
+        name: this.formInputs().name,
+        email: this.formInputs().email,
+        phone: this.formInputs().phone,
+        birthDate: formatDateDayMonthYear(this.formInputs().birthDate),
       });
     }
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
-      this.formSubmit.emit(this.form);
+    if (this.form().valid) {
+      this.formSubmit.emit(this.form());
     } else {
-      this.form.markAllAsTouched();
+      this.form().markAllAsTouched();
     }
   }
 
   onSelectBirthDate(date: Date): void {
-    this.form
+    this.form()
       .get('birthDate')
       ?.setValue(formatDateDayMonthYear(date.toISOString()));
   }
 
   get email() {
-    return this.form.get('email');
+    return this.form().get('email');
   }
   get password() {
-    return this.form.get('password');
+    return this.form().get('password');
   }
   get name() {
-    return this.form.get('name');
+    return this.form().get('name');
   }
   get phone() {
-    return this.form.get('phone');
+    return this.form().get('phone');
   }
   get birthDate() {
-    return this.form.get('birthDate');
+    return this.form().get('birthDate');
   }
 }

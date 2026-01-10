@@ -1,11 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  EventEmitter,
-  Input,
-  Output,
-  inject,
-} from '@angular/core';
+import { Component, DestroyRef, inject, input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -49,14 +42,11 @@ import { UserFormComponent } from '../../../../shared/components/user-form/user-
 })
 export class RegisterModalComponent {
   form: FormGroup;
-
-  @Output() renderUsersCall = new EventEmitter<void>();
-  @Input() formInputs?: User;
-  @Input() modalTitle?: string = '';
-  @Input() saveButtonText?: string = '';
+  formInputs = input.required<User>();
+  modalTitle = input.required<string>();
+  saveButtonText = input.required<string>();
 
   private destroyRef: DestroyRef = inject(DestroyRef);
-
   private readonly ref = inject(DynamicDialogRef);
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
@@ -91,9 +81,9 @@ export class RegisterModalComponent {
   saveRegister(): void {
     const formData: UserForm = this.form.value;
 
-    if (this.formInputs) {
+    if (this.formInputs()) {
       this.submitRequest(
-        this.usersService.updateUser(this.formInputs.id, formData),
+        this.usersService.updateUser(this.formInputs().id, formData),
         'Cadastro editado com sucesso!',
       );
     } else {
